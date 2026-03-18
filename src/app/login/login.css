@@ -1,0 +1,212 @@
+/* Wrapper */
+body{
+  margin:0;
+}
+
+.login-wrapper{
+
+  width:100%;
+  height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  
+  background:#cfb2ee; /* light violet background */
+  margin: 0;
+  padding: 20px;
+
+}
+
+/* Card */
+
+.login-card{
+
+  width:380px;
+
+  padding:45px 35px 110px;
+
+  background: linear-gradient(180deg,#7b2ff7,#a044ff);
+
+  border-radius:35px;
+
+  box-shadow:0 30px 60px rgba(0,0,0,0.25);
+
+  text-align:center;
+
+  color:white;
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+/* Bottom wave */
+
+.login-card::after{
+
+  content:"";
+
+  position:absolute;
+
+  bottom:-60px;
+  left:-25%;
+
+  width:150%;
+  height:140px;
+
+  background:white;
+
+  border-radius:50%;
+
+  z-index:0;
+
+}
+
+/* Title */
+
+.login-card h1{
+
+  font-size:28px;
+  font-weight:600;
+
+  margin-bottom:5px;
+
+}
+
+/* Subtitle */
+
+.subtitle{
+
+  font-size:13px;
+  letter-spacing:2px;
+
+  margin-bottom:30px;
+
+  opacity:0.9;
+
+}
+
+/* Input groups */
+
+.input-group{
+
+  margin-bottom:18px;
+
+}
+
+/* Inputs */
+
+input{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:30px;
+
+  background:rgba(255,255,255,0.35);
+
+  color:white;
+
+  text-align:center;
+
+  outline:none;
+
+  font-size:14px;
+
+}
+
+input::placeholder{
+  color:#eee;
+}
+
+/* Button */
+
+.login-btn{
+
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:30px;
+
+  background:white;
+
+  color:#7b2ff7;
+
+  font-weight:600;
+
+  margin-top:10px;
+
+  cursor:pointer;
+
+  transition:0.25s;
+
+}
+
+.login-btn:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+
+}
+
+/* Register */
+
+.register-text{
+
+  position:absolute;
+
+  bottom:20px;
+  left:0;
+  right:0;
+
+  color:#992de6;
+
+
+  font-size:13px;
+
+  z-index:2;
+
+}
+
+.register-text a{
+
+  color:#992de6;
+
+  font-weight:600;
+
+  text-decoration:none;
+
+}
+
+/* Error */
+
+.error{
+
+  margin-top:10px;
+
+  font-size:13px;
+
+  color:#ffdede;
+
+}
+
+.error-msg{
+
+  font-size:11px;
+
+  color:#ffdede;
+
+  display:block;
+
+  margin-top:4px;
+
+}

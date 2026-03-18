@@ -1,0 +1,166 @@
+<div class="dashboard-wrapper">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      Desk<span>Admin</span>
+    </div>
+
+    <nav class="menu">
+
+      <a class="active">Dashboard</a>
+      <a>Complaints</a>
+      <a>Users</a>
+      <a>Reports</a>
+      <a>Settings</a>
+
+    </nav>
+
+    <button class="logout">Logout</button>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+
+  <main class="main">
+
+    <div class="top">
+
+      <h1>Admin Dashboard</h1>
+
+      <div class="badge">
+        Pending: {{pendingComplaints}}
+      </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="card">
+        <p>Total Users</p>
+        <h2>{{totalUsers}}</h2>
+      </div>
+
+      <div class="card">
+        <p>Pending</p>
+        <h2>{{pendingComplaints}}</h2>
+      </div>
+
+      <div class="card">
+        <p>Resolved</p>
+        <h2>{{resolvedComplaints}}</h2>
+      </div>
+
+      <div class="card">
+        <p>Total Complaints</p>
+        <h2>{{totalComplaints}}</h2>
+      </div>
+
+    </div>
+
+    <!-- FILTERS -->
+
+    <div class="filters">
+
+      <input
+      type="text"
+      placeholder="Search name or email..."
+      [(ngModel)]="searchTerm"
+      (input)="applyFilters()"
+      />
+
+      <select [(ngModel)]="categoryFilter" (change)="applyFilters()">
+        <option value="All">All Categories</option>
+        <option value="Electricity">Electricity</option>
+        <option value="Water">Water</option>
+        <option value="Road">Road</option>
+        <option value="Garbage">Garbage</option>
+      </select>
+
+      <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+        <option value="All">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let c of filteredComplaints">
+
+            <td>{{c.fullName}}</td>
+            <td>{{c.email}}</td>
+            <td>{{c.category}}</td>
+            <td>{{c.description}}</td>
+            <td>{{c.date}}</td>
+
+            <td>
+              <span class="status"
+                [ngClass]="{
+                pending:c.status==='Pending',
+                approved:c.status==='Approved',
+                rejected:c.status==='Rejected'
+                }">
+                {{c.status}}
+              </span>
+            </td>
+
+            <td>
+
+              <button
+              class="approve"
+              *ngIf="c.status==='Pending'"
+              (click)="approveComplaint(c.id)">
+              Resolve
+              </button>
+
+              <button
+              class="reject"
+              *ngIf="c.status==='Pending'"
+              (click)="rejectComplaint(c.id)">
+              Reject
+              </button>
+
+            </td>
+
+          </tr>
+
+          <tr *ngIf="filteredComplaints.length===0">
+            <td colspan="7" class="no-data">
+              No complaints found
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </main>
+
+</div>

@@ -1,0 +1,63 @@
+<div class="login-wrapper">
+
+  <div class="login-card">
+
+    <h1>LOGIN</h1>
+    <p class="subtitle">TO CONTINUE</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <!-- Email -->
+      <div class="input-group">
+
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="someone@email.com">
+
+        <small *ngIf="submitted && loginForm.controls['email'].errors" class="error-msg">
+          <span *ngIf="loginForm.controls['email'].errors['required']">Email required</span>
+          <span *ngIf="loginForm.controls['email'].errors['email']">Invalid email</span>
+        </small>
+
+      </div>
+
+      <!-- Password -->
+      <div class="input-group">
+
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="••••••••••">
+
+        <small *ngIf="submitted && loginForm.controls['password'].errors" class="error-msg">
+          <span *ngIf="loginForm.controls['password'].errors['required']">Password required</span>
+          <span *ngIf="loginForm.controls['password'].errors['minlength']">Min 6 characters</span>
+        </small>
+
+      </div>
+
+      <!-- Button -->
+
+      <button type="submit" class="login-btn">
+        LOGIN
+      </button>
+
+    </form>
+
+    <!-- Error -->
+
+    <p class="error" *ngIf="message">
+      {{ message }}
+    </p>
+
+    <!-- Register -->
+
+    <p class="register-text">
+      Don't have an account?
+      <a routerLink="/register">Register</a>
+    </p>
+
+  </div>
+
+</div>

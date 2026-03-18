@@ -1,0 +1,57 @@
+<div class="complaint-wrapper">
+
+  <div class="complaint-card">
+
+    <h2>Submit Complaint</h2>
+    <p class="subtitle">Please describe your concern clearly</p>
+
+    <form [formGroup]="complaintForm" (ngSubmit)="submitComplaint()">
+
+      <!-- CATEGORY -->
+
+      <div class="input-group">
+
+        <label>Complaint Category</label>
+
+        <select formControlName="category">
+
+          <option value="">Select Category</option>
+
+          <option *ngFor="let c of complaintCategories" [value]="c">
+            {{c}}
+          </option>
+
+        </select>
+
+        <small *ngIf="submitted && f['category'].errors">
+          Please select a category
+        </small>
+
+      </div>
+
+      <!-- DESCRIPTION -->
+
+      <div class="input-group">
+
+        <label>Complaint Details</label>
+
+        <textarea
+        rows="6"
+        placeholder="Write your complaint here..."
+        formControlName="description"></textarea>
+
+        <small *ngIf="submitted && f['description'].errors">
+          Complaint must be at least 10 characters
+        </small>
+
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Submit Complaint
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
