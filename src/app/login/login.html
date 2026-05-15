@@ -1,61 +1,74 @@
 <div class="login-wrapper">
 
+  <button class="back-btn" (click)="goBack()">← Back</button>
+
   <div class="login-card">
 
-    <h1>LOGIN</h1>
-    <p class="subtitle">TO CONTINUE</p>
+    <h1>Welcome Back</h1>
+    <p class="subtitle">LOGIN TO CONTINUE</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-      <!-- Email -->
+      <!-- EMAIL -->
       <div class="input-group">
-
         <input
           type="email"
           formControlName="email"
-          placeholder="someone@email.com">
+          placeholder="Email Address">
 
         <small *ngIf="submitted && loginForm.controls['email'].errors" class="error-msg">
-          <span *ngIf="loginForm.controls['email'].errors['required']">Email required</span>
-          <span *ngIf="loginForm.controls['email'].errors['email']">Invalid email</span>
+          <span *ngIf="loginForm.controls['email'].errors['required']
+">
+            Email is required
+          </span>
+          <span *ngIf="loginForm.controls['email'].errors['email']">
+            Invalid email format
+          </span>
         </small>
-
       </div>
 
-      <!-- Password -->
+      <!-- PASSWORD -->
       <div class="input-group">
-
         <input
           type="password"
           formControlName="password"
-          placeholder="••••••••••">
+          placeholder="Password">
 
         <small *ngIf="submitted && loginForm.controls['password'].errors" class="error-msg">
-          <span *ngIf="loginForm.controls['password'].errors['required']">Password required</span>
-          <span *ngIf="loginForm.controls['password'].errors['minlength']">Min 6 characters</span>
+          <span *ngIf="loginForm.controls['password'].errors?.['required']">
+            Password is required
+          </span>
         </small>
-
       </div>
 
-      <!-- Button -->
-
+      <!-- LOGIN BUTTON -->
       <button type="submit" class="login-btn">
-        LOGIN
+        Login
       </button>
 
     </form>
 
-    <!-- Error -->
-
+    <!-- ERROR MESSAGE -->
     <p class="error" *ngIf="message">
       {{ message }}
     </p>
 
-    <!-- Register -->
+    <!-- DIVIDER -->
+    <div class="divider">
+      <span>OR</span>
+    </div>
 
+    <!-- QUICK ACTIONS -->
+    <div class="extra-actions">
+      <button class="outline-btn" routerLink="/submit">
+        Continue as Guest
+      </button>
+    </div>
+
+    <!-- REGISTER -->
     <p class="register-text">
-      Don't have an account?
-      <a routerLink="/register">Register</a>
+      Don’t have an account?
+      <a routerLink="/register">Create one</a>
     </p>
 
   </div>

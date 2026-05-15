@@ -1,0 +1,354 @@
+<div class="home">
+
+ <!-- NAVBAR -->
+<nav class="navbar">
+
+  <div class="logo">Service Desk Pro</div>
+
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#about-resort">About Resort</a>
+    <a href="#about-us">About Us</a>
+
+    <button class="btn primary" (click)="goToSubmit()">
+      Submit Complaint
+    </button>
+
+    <button class="btn secondary" (click)="track()">
+      Track Complaint
+    </button>
+
+    <!-- ✅ NEW LOGIN BUTTON -->
+    <button class="btn login" (click)="goToLogin()">
+      Login
+    </button>
+  </div>
+
+</nav>
+<section class="hero">
+
+
+  <div class="hero-content">
+    <h1>
+      Effortless Complaint <br>
+      Tracking & Support
+    </h1>
+
+    <p>
+      Submit issues instantly and monitor their progress in real-time 
+      with our smart guest support system.
+    </p>
+
+    <div class="track-box hero-track">
+      <input
+        [(ngModel)]="trackingNumber"
+        (keyup.enter)="onEnter()"
+        (input)="formatInput()"
+        placeholder="Enter Tracking ID (TRK-123456)"
+      >
+
+      <button class="btn secondary" (click)="track()">
+        Track
+      </button>
+    </div>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
+
+</section>
+
+  <!-- ABOUT RESORT -->
+<section class="section" id="about-resort">
+  <div class="about-container">
+
+    <!-- IMAGE -->
+    <div class="about-image">
+      <img src="assets/images/resort.jpg" alt="Camp Bryztoff Resort">
+    </div>
+
+    <!-- CONTENT -->
+    <div class="about-content">
+      <h2>About Camp Bryztoff</h2>
+
+      <p>
+        Camp Bryztoff is a premium resort destination crafted for guests who seek
+        a perfect balance of relaxation, luxury, and adventure. Surrounded by
+        breathtaking natural landscapes, our resort offers a peaceful escape
+        from everyday life.
+      </p>
+
+      <p>
+        Guests can indulge in world-class accommodations, fine dining experiences,
+        wellness spas, and outdoor activities designed to refresh both body and mind.
+        Whether you're here for leisure or exploration, every detail is thoughtfully
+        designed to elevate your stay.
+      </p>
+
+      <p>
+        Our commitment goes beyond comfort — we focus on delivering seamless guest
+        support through smart technology, ensuring every request, including complaints,
+        is handled efficiently and transparently.
+      </p>
+
+      <div class="about-highlights">
+        <div>🌿 Eco-friendly environment</div>
+        <div>🏡 Luxury private stays</div>
+        <div>🍽️ Fine dining experience</div>
+        <div>🛎️ 24/7 smart guest support</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <section class="section alt">
+  <div class="card-main steps-wrapper">
+    <div class="carousel-controls">
+  <button (click)="scrollLeft()">←</button>
+  <button (click)="scrollRight()">→</button>
+  </div>
+    <h2>How to Submit a Complaint</h2>
+    <p class="steps-sub">
+      We’ve made the process simple, transparent, and quick so you can focus on enjoying your stay.
+    </p>
+
+    <div class="steps-carousel">
+
+      <div class="step-card">
+        <span>01</span>
+        <h4>Submit Your Complaint</h4>
+        <p>
+          Easily report any issue through our digital complaint form. 
+          Provide details so our team can assist you faster.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <span>02</span>
+        <h4>Receive Tracking ID</h4>
+        <p>
+          Instantly get a unique tracking number to monitor your complaint 
+          anytime during your stay.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <span>03</span>
+        <h4>Track Progress</h4>
+        <p>
+          Stay updated in real-time as our team works on resolving your issue 
+          efficiently.
+        </p>
+      </div>
+
+      <div class="step-card">
+        <span>04</span>
+        <h4>Resolution & Feedback</h4>
+        <p>
+          Once resolved, review the outcome and share feedback to help us improve 
+          your experience.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+ <section class="section alt" id="about-us">
+  <div class="aboutus-container">
+
+    <!-- LEFT SIDE -->
+<section class="section about-system" id="about-us">
+  <div class="about-system-container">
+
+    <!-- LEFT -->
+    <div class="about-system-content">
+      <h2>About the System</h2>
+
+      <p>
+        The Camp Bryztoff Complaint Management System is designed to provide a
+        seamless and efficient way for guests to report and track issues during
+        their stay.
+      </p>
+
+      <p>
+        By combining a simple interface with real-time updates, the system ensures
+        transparency and faster resolution, improving overall guest satisfaction.
+      </p>
+
+      <div class="system-features">
+        <div>📩 Easy Complaint Submission</div>
+        <div>🔍 Real-Time Tracking</div>
+        <div>⚡ Fast Response Handling</div>
+        <div>🔒 Transparent Process</div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="about-system-visual">
+      <div class="system-card">
+        <div class="status pending">TRK-10234 - Pending</div>
+        <div class="status progress">TRK-56789 - In Progress</div>
+        <div class="status done">TRK-99812 - Resolved</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section testimonials">
+  <div class="testimonials-container">
+
+    <h2>Guest Feedback</h2>
+    <p class="section-sub">
+      Real experiences shared by our guests using our complaint system.
+    </p>
+
+    <!-- 🔥 SUBMISSION FORM -->
+    <div class="testimonial-form">
+
+      <input 
+        type="text" 
+        placeholder="Your Name"
+        [(ngModel)]="newTestimonial.name"
+      >
+
+      <textarea 
+        placeholder="Share your experience..."
+        [(ngModel)]="newTestimonial.message"
+      ></textarea>
+
+      <button class="btn primary" (click)="addTestimonial()">
+        Submit Feedback
+      </button>
+
+    </div>
+
+    <!-- 🔥 TESTIMONIAL LIST -->
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card" *ngFor="let t of testimonials">
+
+        <div class="testimonial-top">
+          <div class="avatar">
+            {{ t.name?.charAt(0) || '?' }}
+          </div>
+
+          <div>
+            <h4>{{ t.name }}</h4>
+            <span>Verified Guest</span>
+          </div>
+        </div>
+
+        <p class="message">"{{ t.message }}"</p>
+
+        <!-- 🔥 DATE -->
+        <span class="date">
+          {{ formatDate(t.date) }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section complaints-section">
+  <div class="complaints-container">
+
+    <h2>Recent Complaints</h2>
+    <p class="section-sub">
+      Live updates from the complaint tracking system.
+    </p>
+
+    <div class="complaints-list">
+
+      <div 
+        class="complaint-row clickable"
+        *ngFor="let c of recentComplaints"
+        (click)="goToTrack(c.trackingNumber)"
+      >
+
+        <!-- LEFT -->
+        <div class="left">
+          <strong>{{ c.trackingNumber }}</strong>
+          <span class="date">
+            {{ formatDate(c.date) }}
+          </span>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right">
+          <span 
+            class="status-badge"
+            [ngClass]="{
+              'pending': c.status === 'Pending',
+              'progress': c.status === 'In Progress',
+              'resolved': c.status === 'Resolved'
+            }"
+          >
+            {{ c.status }}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="section cta-section">
+  <div class="cta-container">
+
+    <h2>Need Help with an Issue?</h2>
+    <p>
+      Submit your complainand track its progress in real-time with our smart system.
+    </p>
+
+    <button class="btn primary" (click)="goToSubmit()">
+      Submit Complaint
+    </button>
+
+  </div>
+</section>
+
+  <footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-grid">
+
+      <!-- BRAND -->
+      <div>
+        <h3>Camp Bryztoff</h3>
+        <p>Luxury resort with smart complaint management system.</p>
+      </div>
+
+      <!-- NAV -->
+      <div>
+        <h4>Navigation</h4>
+        <a href="#">Home</a>
+        <a href="#about-resort">About Resort</a>
+        <a href="#about-us">About System</a>
+      </div>
+
+      <!-- CONTACT -->
+      <div>
+        <h4>Contact</h4>
+        <p>Email: support@bryztoff.com</p>
+        <p>Available 24/7 for guest support</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Camp Bryztoff • All Rights Reserved
+    </div>
+
+  </div>
+</footer>
+
+</div>

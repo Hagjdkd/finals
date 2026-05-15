@@ -1,49 +1,9 @@
-<div class="dashboard-container">
+<main class="main">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="logo">
-      ServiceDesk<span>Pro</span>
-    </div>
-
-    <ul class="menu">
-
-      <li routerLink="/dashboard" routerLinkActive="active">
-        Dashboard
-      </li>
-
-      <li routerLink="/complaint" routerLinkActive="active">
-        Submit Complaint
-      </li>
-
-      <li routerLink="/my-complaints" routerLinkActive="active">
-        My Complaints
-      </li>
-
-      <li>
-        Notifications
-      </li>
-
-      <li>
-        Profile
-      </li>
-
-      <li routerLink="/login">
-        Logout
-      </li>
-
-    </ul>
-
-  </aside>
-
-
-  <!-- MAIN -->
-  <main class="main">
+  <div class="content">
 
     <!-- HEADER -->
     <div class="header">
-
       <div>
         <p class="welcome">Welcome back 👋</p>
         <h1>User Dashboard</h1>
@@ -53,13 +13,10 @@
         <div class="avatar"></div>
         <span>{{userName}}</span>
       </div>
-
     </div>
-
 
     <!-- STATS -->
     <div class="stats">
-
       <div class="card">
         <h3>Total Complaints</h3>
         <p>{{total}}</p>
@@ -79,19 +36,13 @@
         <h3>Resolved</h3>
         <p>{{resolved}}</p>
       </div>
-
     </div>
-
 
     <!-- TABLE -->
     <div class="table-card">
-
-      <div class="table-header">
-        <h2>My Complaints</h2>
-      </div>
+      <h2>My Complaints</h2>
 
       <table>
-
         <thead>
           <tr>
             <th>ID</th>
@@ -104,32 +55,14 @@
         <tbody>
 
           <tr *ngFor="let c of complaints">
-
             <td>#{{c.id}}</td>
-
+            <td>{{c.description}}</td>
+            <td>{{c.date}}</td>
             <td>
-              {{c.description}}
-            </td>
-
-            <td>
-              {{c.date}}
-            </td>
-
-            <td>
-
-              <span
-                class="status"
-                [ngClass]="{
-                  'pending': c.status === 'Pending',
-                  'progress': c.status === 'In Progress',
-                  'resolved': c.status === 'Resolved'
-                }"
-              >
+              <span class="status" [ngClass]="c.status.toLowerCase().replace(' ', '')">
                 {{c.status}}
               </span>
-
             </td>
-
           </tr>
 
           <tr *ngIf="complaints.length === 0">
@@ -139,11 +72,10 @@
           </tr>
 
         </tbody>
-
       </table>
 
     </div>
 
-  </main>
+  </div>
 
-</div>
+</main>

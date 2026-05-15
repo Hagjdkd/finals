@@ -1,0 +1,194 @@
+/* WRAPPER */
+.track-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  background:
+    linear-gradient(rgba(0,50,30,0.75), rgba(0,30,20,0.85)),
+    url('/assets/images/resort.jpg');
+
+  background-size: cover;
+  background-position: center;
+}
+
+/* CARD */
+.track-card {
+  width: 440px;
+  max-width: 100%;
+  padding: 40px 30px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.15);
+
+  color: white;
+  text-align: center;
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+
+  animation: fadeIn 0.5s ease;
+}
+
+/* TITLE */
+.track-card h1 {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+  color: #cfcfcf;
+}
+
+/* ERROR */
+.error-box {
+  background: rgba(255,0,0,0.15);
+  border: 1px solid rgba(255,0,0,0.3);
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+/* TRACK ID */
+.track-id {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #66bb6a;
+  letter-spacing: 1px;
+}
+
+/* STATUS BADGE */
+.status-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* COLORS */
+.status-badge.pending {
+  background: #ffca28;
+  color: #222;
+}
+
+.status-badge.progress {
+  background: #42a5f5;
+  color: white;
+}
+
+.status-badge.resolved {
+  background: #4caf50;
+  color: white;
+}
+
+/* DETAILS */
+.details {
+  text-align: left;
+  margin-top: 10px;
+}
+
+/* EACH FIELD */
+.detail {
+  background: rgba(255,255,255,0.05);
+  padding: 12px 15px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* LABEL */
+.detail span {
+  font-size: 11px;
+  color: #aaa;
+  display: block;
+}
+
+/* VALUE */
+.detail strong {
+  display: block;
+  font-size: 15px;
+  margin-top: 3px;
+}
+
+/* DESCRIPTION */
+.detail p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #eee;
+  line-height: 1.5;
+}
+
+/* BUTTON (reuse style) */
+.track-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 25px;
+  border: none;
+
+  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  color: white;
+  font-weight: bold;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.track-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.back-btn {
+  position: fixed;        /* 🔥 stays in top-left of screen */
+  top: 20px;
+  left: 20px;
+
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1000;          /* stays above everything */
+}
+
+.back-btn:hover {
+  background-color: #000;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .track-card {
+    width: 100%;
+    padding: 25px;
+  }
+}

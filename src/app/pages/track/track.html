@@ -1,0 +1,67 @@
+<div class="track-wrapper">
+
+  <!-- 🔙 BACK BUTTON -->
+<div class="back-btn" (click)="goBack()">
+  ⬅ Back
+</div>
+
+
+  <div class="track-card">
+
+    <h1>Track Complaint</h1>
+    <p class="subtitle">REAL-TIME STATUS</p>
+
+    <!-- NOT FOUND -->
+    <div *ngIf="notFound" class="error-box">
+      ❌ No complaint found for this tracking number
+    </div>
+
+    <!-- FOUND -->
+    <div *ngIf="complaint" class="track-content">
+
+      <!-- TRACK ID -->
+      <div class="track-id">
+        {{ complaint.trackingNumber }}
+      </div>
+
+      <!-- STATUS -->
+      <div 
+        class="status-badge"
+        [ngClass]="{
+          'pending': complaint.status === 'Pending',
+          'progress': complaint.status === 'In Progress',
+          'resolved': complaint.status === 'Resolved'
+        }"
+      >
+        {{ complaint.status }}
+      </div>
+
+      <!-- DETAILS -->
+      <div class="details">
+
+        <div class="detail">
+          <p><strong>Name:</strong> {{ complaint.fullName || complaint.name || 'Guest' }}</p>
+        </div>
+
+        <div class="detail">
+          <span>Email</span>
+          <strong>{{ complaint.email || 'Guest User' }}</strong>
+        </div>
+
+        <div class="detail">
+          <span>Category</span>
+          <strong>{{ complaint.category }}</strong>
+        </div>
+
+        <div class="detail">
+          <span>Description</span>
+          <p>{{ complaint.description }}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

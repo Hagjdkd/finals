@@ -1,17 +1,7 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-
-interface User {
-  fullName: string;
-  email: string;
-  password: string;
-  contactNumber?: string;
-  complaintCategory?: string;
-  status: string;
-  role: string;
-}
 
 @Component({
   selector: 'app-login',
@@ -20,69 +10,75 @@ interface User {
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-export class Login {
+export class Login implements OnInit {
 
   loginForm: FormGroup;
   message = '';
   submitted = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
-
-    let users: User[] = [];
-
-    if (typeof window !== 'undefined') {
-      users = JSON.parse(localStorage.getItem('users') || '[]');
-    }
-
-    // CHECK IF ADMIN EXISTS
-    const adminExists = users.some(u => u.role === 'admin');
-
-    // CREATE DEFAULT ADMIN
-    if (!adminExists) {
-
-      const defaultAdmin: User = {
-        fullName: 'System Administrator',
-        email: 'admin@complaint.com',
-        password: 'admin123',
-        contactNumber: '09123456789',
-        role: 'admin',
-        status: 'Approved'
-      };
-
-      users.push(defaultAdmin);
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('users', JSON.stringify(users));
-      }
-    }
-
-    // LOGIN FORM
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
-
   }
 
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.createDefaultAdmin();
+    }
+  }
+
+  // =========================
+  // 🔐 CREATE DEFAULT ADMIN
+  // =========================
+  createDefaultAdmin() {
+
+    const users = JSON.parse(localStorage.getItem('users') ?? '[]');
+
+    const adminExists = users.some((u: any) => u.role === 'admin');
+
+    if (!adminExists) {
+      const defaultAdmin = {
+        id: 1,
+        fullName: 'System Administrator',
+        email: 'admin@bryztoff.com',   // ✅ correct email
+        password: 'admin123',
+        role: 'admin'
+      };
+
+      users.push(defaultAdmin);
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+  }
+
+  // =========================
+  // 🔑 LOGIN FUNCTION
+  // =========================
   onSubmit() {
 
     this.submitted = true;
 
     if (this.loginForm.invalid) {
-      this.message = 'Please enter email and password.';
+      this.message = 'Please enter valid email and password.';
       return;
     }
 
-    const { email, password } = this.loginForm.value;
+    if (!isPlatformBrowser(this.platformId)) return;
 
-    let users: User[] = [];
+    const email = this.loginForm.value.email.trim().toLowerCase();
+    const password = this.loginForm.value.password;
 
-    if (typeof window !== 'undefined') {
-      users = JSON.parse(localStorage.getItem('users') || '[]');
-    }
+    const users = JSON.parse(localStorage.getItem('users') ?? '[]');
 
     const foundUser = users.find(
-      u => u.email === email && u.password === password
+      (u: any) =>
+        u.email?.toLowerCase() === email &&
+        u.password === password
     );
 
     if (!foundUser) {
@@ -90,18 +86,18 @@ export class Login {
       return;
     }
 
-    // SAVE LOGGED USER
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('loggedInUser', JSON.stringify(foundUser));
-    }
+    // ✅ SAVE USER SESSION
+    localStorage.setItem('currentUser', JSON.stringify(foundUser));
 
-    // REDIRECT BASED ON ROLE
+    // ✅ REDIRECT
     if (foundUser.role === 'admin') {
-      this.router.navigate(['/admin']);
+      this.router.navigateByUrl('/admin');
     } else {
-      this.router.navigate(['/dashboard']);
+      this.router.navigateByUrl('app/dashboard'); // or '/user'
     }
-
   }
 
+  goBack() {
+  this.router.navigate(['/home']);
+}
 }

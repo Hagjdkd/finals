@@ -1,0 +1,98 @@
+<div class="login-wrapper">
+
+      <!-- 🔙 BACK BUTTON -->
+<div class="back-btn" (click)="goBack()">
+  ⬅ Back
+</div>
+
+  <!-- FORM CARD -->
+  <div class="login-card">
+
+    <h1>Submit Complaint</h1>
+    <p class="subtitle">FAST & EASY SUPPORT</p>
+
+
+
+    <!-- LOGIN SUGGESTION -->
+    <div class="login-hint">
+      <p>
+        Want faster updates and history tracking?
+        <span (click)="goToLogin()">Log in</span>
+      </p>
+    </div>
+
+    <form [formGroup]="complaintForm" (ngSubmit)="onSubmit()">
+
+      <!-- Guest Toggle -->
+      <div class="guest-toggle">
+        <label>
+          <input type="checkbox" [(ngModel)]="isGuest" name="guest">
+          Submit as Guest
+        </label>
+      </div>
+
+      <!-- Name -->
+      <div class="input-group">
+        <input type="text" formControlName="name" placeholder="Full Name">
+        <small *ngIf="submitted && complaintForm.get('name')?.errors" class="error-msg">
+          Name is required
+        </small>
+      </div>
+
+      <!-- Email -->
+      <div class="input-group">
+        <input type="email" formControlName="email"
+               [placeholder]="isGuest ? 'Email (optional)' : 'Email Address'">
+
+        <small *ngIf="submitted && complaintForm.get('email')?.errors?.['email']" class="error-msg">
+          Invalid email format
+        </small>
+      </div>
+
+      <!-- Category -->
+      <div class="input-group">
+        <select formControlName="category">
+          <option value="">Select Issue Category</option>
+          <option value="room">Room Issue</option>
+          <option value="service">Service</option>
+          <option value="cleanliness">Cleanliness</option>
+          <option value="other">Other</option>
+        </select>
+
+        <small *ngIf="submitted && complaintForm.get('category')?.errors" class="error-msg">
+          Please select a category
+        </small>
+      </div>
+
+      <!-- Description -->
+      <div class="input-group">
+        <textarea
+          formControlName="description"
+          placeholder="Describe your concern..."
+          rows="3"></textarea>
+
+        <small *ngIf="submitted && complaintForm.get('description')?.errors" class="error-msg">
+          Description required
+        </small>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="login-btn">
+        Submit Complaint
+      </button>
+
+    </form>
+
+  </div>
+
+  <!-- SUCCESS CARD -->
+  <div *ngIf="success" class="success-card">
+    <h3>✅ Complaint Submitted</h3>
+    <p class="track-id">{{ trackingNumber }}</p>
+    <p>Save this to track your complaint</p>
+
+    <button type="button" class="track-btn" (click)="goToTrack()">
+  Track Now
+</button>
+
+</div>

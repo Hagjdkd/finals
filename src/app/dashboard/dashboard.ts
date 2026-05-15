@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],  // ✅ ADD THIS
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
-
 export class Dashboard implements OnInit {
+
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   userName = '';
 
@@ -22,39 +26,45 @@ export class Dashboard implements OnInit {
   complaints: any[] = [];
 
   ngOnInit() {
-    this.loadUser();
-    this.loadComplaints();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadUser();
+      this.loadComplaints();
+    }
   }
 
   loadUser() {
-    const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
     this.userName = user.fullName || 'User';
   }
 
   loadComplaints() {
 
-    const storedComplaints = JSON.parse(localStorage.getItem('complaints') || '[]');
+  const stored = JSON.parse(localStorage.getItem('complaints') || '[]');
+  const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
-    const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+  if (!user.email) return;
 
-    this.complaints = storedComplaints.filter(
-      (c: any) => c.userEmail === user.email
-    );
+  this.complaints = stored
+    .map((c: any) => ({
+      ...c,
+      email: c.email || c.userEmail // ✅ normalize
+    }))
+    .filter((c: any) => c.email === user.email);
 
-    this.total = this.complaints.length;
+  this.total = this.complaints.length;
 
-    this.pending = this.complaints.filter(
-      (c: any) => c.status === 'Pending'
-    ).length;
+  this.pending = this.complaints.filter(
+    c => c.status === 'Pending'
+  ).length;
 
-    this.progress = this.complaints.filter(
-      (c: any) => c.status === 'In Progress'
-    ).length;
+  this.progress = this.complaints.filter(
+    c => c.status === 'In Progress'
+  ).length;
 
-    this.resolved = this.complaints.filter(
-      (c: any) => c.status === 'Resolved'
-    ).length;
+  this.resolved = this.complaints.filter(
+    c => c.status === 'Resolved'
+  ).length;
 
-  }
-
+  console.log('Dashboard complaints:', this.complaints);
+}
 }

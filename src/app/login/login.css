@@ -1,212 +1,205 @@
-/* Wrapper */
-body{
-  margin:0;
+/* WRAPPER */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    linear-gradient(rgba(0,40,20,0.7), rgba(0,40,20,0.7)),
+    url('/assets/images/bryztoff.jpg');
+
+  background-size: cover;
+  background-position: center;
 }
 
-.login-wrapper{
-
-  width:100%;
-  height:100vh;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  
-  background:#cfb2ee; /* light violet background */
-  margin: 0;
-  padding: 20px;
-
-}
-
-/* Card */
-
-.login-card{
-
-  width:380px;
-
-  padding:45px 35px 110px;
-
-  background: linear-gradient(180deg,#7b2ff7,#a044ff);
-
-  border-radius:35px;
-
-  box-shadow:0 30px 60px rgba(0,0,0,0.25);
-
-  text-align:center;
-
-  color:white;
-
-  position:relative;
-
-  overflow:hidden;
-
-}
-
-/* Bottom wave */
-
-.login-card::after{
-
-  content:"";
-
+.back-btn{
   position:absolute;
+  top:25px;
+  left:25px;
 
-  bottom:-60px;
-  left:-25%;
+  padding:10px 18px;
+  border-radius:25px;
+  border:1px solid rgba(255,255,255,0.3);
 
-  width:150%;
-  height:140px;
-
-  background:white;
-
-  border-radius:50%;
-
-  z-index:0;
-
-}
-
-/* Title */
-
-.login-card h1{
-
-  font-size:28px;
-  font-weight:600;
-
-  margin-bottom:5px;
-
-}
-
-/* Subtitle */
-
-.subtitle{
-
-  font-size:13px;
-  letter-spacing:2px;
-
-  margin-bottom:30px;
-
-  opacity:0.9;
-
-}
-
-/* Input groups */
-
-.input-group{
-
-  margin-bottom:18px;
-
-}
-
-/* Inputs */
-
-input{
-
-  width:100%;
-
-  padding:14px;
-
-  border:none;
-
-  border-radius:30px;
-
-  background:rgba(255,255,255,0.35);
+  background:rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
 
   color:white;
-
-  text-align:center;
-
-  outline:none;
-
-  font-size:14px;
-
-}
-
-input::placeholder{
-  color:#eee;
-}
-
-/* Button */
-
-.login-btn{
-
-  width:100%;
-
-  padding:14px;
-
-  border:none;
-
-  border-radius:30px;
-
-  background:white;
-
-  color:#7b2ff7;
-
-  font-weight:600;
-
-  margin-top:10px;
-
   cursor:pointer;
-
-  transition:0.25s;
-
+  transition:0.3s;
 }
 
-.login-btn:hover{
-
-  transform:translateY(-2px);
-
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
-
+.back-btn:hover{
+  background:#03812b;
+  border-color:#034626;
 }
 
-/* Register */
+/* CARD */
+.login-card {
+  width: 380px;
+  padding: 40px 30px;
 
-.register-text{
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
 
-  position:absolute;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
 
-  bottom:20px;
-  left:0;
-  right:0;
-
-  color:#992de6;
-
-
-  font-size:13px;
-
-  z-index:2;
-
+  color: white;
+  text-align: center;
+  position: relative;
 }
 
-.register-text a{
-
-  color:#992de6;
-
-  font-weight:600;
-
-  text-decoration:none;
-
+/* TITLE */
+.login-card h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
 }
 
-/* Error */
-
-.error{
-
-  margin-top:10px;
-
-  font-size:13px;
-
-  color:#ffdede;
-
+.subtitle {
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  opacity: 0.8;
 }
 
-.error-msg{
+/* ADMIN HINT */
+.login-hint {
+  font-size: 12px;
+  margin-bottom: 15px;
+  opacity: 0.8;
+}
 
-  font-size:11px;
+.login-hint span {
+  color: #4caf50;
+  font-weight: bold;
+}
+.login-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
 
-  color:#ffdede;
+  bottom: -70px;   /* 👈 push it MORE down */
+  height: 140px;
 
-  display:block;
+  background: white;
+  border-radius: 50% 50% 0 0;
 
-  margin-top:4px;
+  z-index: 1;
+}
 
+/* INPUTS */
+.input-group {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 25px;
+  border: 1px solid rgba(255,255,255,0.3);
+
+  background: rgba(255,255,255,0.15);
+  color: white;
+  text-align: center;
+}
+
+input::placeholder {
+  color: #ddd;
+}
+
+/* BUTTON */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+
+  border-radius: 25px;
+  border: none;
+
+  background: linear-gradient(135deg,#2e7d32,#4caf50);
+  color: white;
+  font-weight: bold;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* OR DIVIDER */
+.divider {
+  margin: 20px 0;
+  position: relative;
+  text-align: center;
+}
+
+.divider span {
+  background: rgba(0,0,0,0.5);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  top: 50%;
+  left: 0;
+  z-index: -1;
+}
+
+/* GUEST BUTTON */
+.outline-btn {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 25px;
+  border: 1px solid #4caf50;
+
+  background: transparent;
+  color: #4caf50;
+
+  cursor: pointer;
+  transition: 0.3s;
+
+  position: relative;
+  z-index: 3;
+}
+
+.outline-btn:hover {
+  background: #4caf50;
+  color: white;
+}
+
+/* ERROR */
+.error {
+  color: #ff6b6b;
+  margin-top: 10px;
+}
+
+/* REGISTER */
+.extra-actions,
+.register-text {
+  font-size: 13px;
+  margin-top: 15px;
+  position: relative;
+  z-index: 3;
+  margin-top: 40px;
+  color: #8fec92;
+}
+
+.register-text a {
+  color: #4caf50;
+  font-weight: bold;
+  text-decoration: none;
 }

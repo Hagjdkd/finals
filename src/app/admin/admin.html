@@ -1,166 +1,403 @@
 <div class="dashboard-wrapper">
 
   <!-- SIDEBAR -->
-
   <aside class="sidebar">
 
     <div class="logo">
-      Desk<span>Admin</span>
+      Service Desk Pro<span>Admin</span>
     </div>
 
     <nav class="menu">
-
-      <a class="active">Dashboard</a>
-      <a>Complaints</a>
-      <a>Users</a>
-      <a>Reports</a>
-      <a>Settings</a>
-
+      <a [class.active]="activeSection==='dashboard'" (click)="setSection('dashboard')">Dashboard</a>
+      <a [class.active]="activeSection==='complaints'" (click)="setSection('complaints')">Complaints</a>
+      <a [class.active]="activeSection==='users'" (click)="setSection('users')">Users</a>
+      <a [class.active]="activeSection==='reports'" (click)="setSection('reports')">Reports</a>
+      <a [class.active]="activeSection==='settings'" (click)="setSection('settings')">Settings</a>
     </nav>
 
-    <button class="logout">Logout</button>
+    <button class="logout" (click)="logout()">Logout</button>
 
   </aside>
 
   <!-- MAIN CONTENT -->
-
   <main class="main">
 
-    <div class="top">
+    <!-- ===================== -->
+    <!-- DASHBOARD SECTION -->
+    <!-- ===================== -->
+    <div *ngIf="activeSection === 'dashboard'">
 
-      <h1>Admin Dashboard</h1>
+      <div class="top">
+        <h1>Admin Dashboard</h1>
+        <div class="badge">
+          Pending: {{pendingComplaints}}
+        </div>
+      </div>
 
-      <div class="badge">
-        Pending: {{pendingComplaints}}
+      <div class="stats">
+
+        <div class="card">
+          <p>Total Users</p>
+          <h2>{{totalUsers}}</h2>
+        </div>
+
+        <div class="card">
+          <p>Pending</p>
+          <h2>{{pendingComplaints}}</h2>
+        </div>
+
+        <div class="card">
+          <p>Resolved</p>
+          <h2>{{resolvedComplaints}}</h2>
+        </div>
+
+        <div class="card">
+          <p>Total Complaints</p>
+          <h2>{{totalComplaints}}</h2>
+        </div>
+
       </div>
 
     </div>
 
-    <!-- STATS -->
+    <!-- ===================== -->
+    <!-- COMPLAINTS SECTION -->
+    <!-- ===================== -->
+    <div *ngIf="activeSection === 'complaints'">
 
-    <div class="stats">
+      <!-- FILTERS -->
+      <div class="filters">
 
-      <div class="card">
-        <p>Total Users</p>
-        <h2>{{totalUsers}}</h2>
+        <input
+          type="text"
+          placeholder="Search name, email or tracking..."
+          [(ngModel)]="searchTerm"
+          (input)="applyFilters()"
+        />
+
+        <select [(ngModel)]="categoryFilter" (change)="applyFilters()">
+          <option value="All">All Categories</option>
+          <option value="room">Room</option>
+          <option value="service">Service</option>
+          <option value="cleanliness">Cleanliness</option>
+          <option value="other">Other</option>
+        </select>
+
+        <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+          <option value="All">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+
       </div>
 
-      <div class="card">
-        <p>Pending</p>
-        <h2>{{pendingComplaints}}</h2>
-      </div>
+      <!-- TABLE -->
+      <div class="table">
 
-      <div class="card">
-        <p>Resolved</p>
-        <h2>{{resolvedComplaints}}</h2>
-      </div>
+        <table>
 
-      <div class="card">
-        <p>Total Complaints</p>
-        <h2>{{totalComplaints}}</h2>
+          <thead>
+  <tr>
+    <th>Tracking</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Category</th>
+    <th>Priority</th> <!-- NEW -->
+    <th>Assigned To</th> <!-- NEW -->
+    <th>Description</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+</thead>
+
+<tbody>
+
+  <tr *ngFor="let c of filteredComplaints">
+
+    <td><strong>{{c.trackingNumber}}</strong></td>
+    <td>{{c.fullName || c.name}}</td>
+    <td>{{c.email}}</td>
+    <td>{{c.category}}</td>
+
+    <!-- 🔥 PRIORITY -->
+    <td>
+      <span class="priority-badge"
+        [ngClass]="{
+          high: c.priority === 'High',
+          medium: c.priority === 'Medium',
+          low: c.priority === 'Low'
+        }">
+        {{c.priority}}
+      </span>
+    </td>
+
+    <!-- 🔥 ASSIGNED -->
+    <td>{{c.assignedTo || 'Unassigned'}}</td>
+
+    <td>{{c.description}}</td>
+
+    <td>
+      <span class="status"
+        [ngClass]="{
+          pending: c.status === 'Pending',
+          approved: c.status === 'Resolved',
+          rejected: c.status === 'In Progress'
+        }">
+        {{c.status}}
+      </span>
+    </td>
+
+    <!-- ACTION -->
+    <td>
+  <div class="action-group">
+
+    <label>Status</label>
+    <select [(ngModel)]="c.status" (change)="updateStatus(c.id, c.status)">
+      <option>Pending</option>
+      <option>In Progress</option>
+      <option>Resolved</option>
+    </select>
+
+    <label>Priority</label>
+    <select [(ngModel)]="c.priority" (change)="updatePriority(c.id, c.priority!)">
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+
+    <label>Assign</label>
+    <select [(ngModel)]="c.assignedTo" (change)="assignComplaint(c.id, c.assignedTo!)">
+      <option value="">Unassigned</option>
+      <option>Maintenance</option>
+      <option>Housekeeping</option>
+      <option>Reception</option>
+    </select>
+
+  </div>
+</td>
+
+  </tr>
+
+</tbody>
+
+        </table>
+
       </div>
 
     </div>
 
-    <!-- FILTERS -->
+    <!-- ===================== -->
+    <!-- USERS SECTION -->
+    <!-- ===================== -->
+    <div *ngIf="activeSection === 'users'">
+  <app-user></app-user>
+</div>
+<!-- ===================== -->
+<!-- REPORTS -->
+<!-- ===================== -->
+<div *ngIf="activeSection === 'reports'">
 
-    <div class="filters">
+  <!-- TITLE -->
+  <div class="top">
+    <h1>Reports Overview</h1>
+  </div>
 
-      <input
-      type="text"
-      placeholder="Search name or email..."
-      [(ngModel)]="searchTerm"
-      (input)="applyFilters()"
-      />
+  <!-- SUMMARY CARDS -->
+  <div class="stats">
 
-      <select [(ngModel)]="categoryFilter" (change)="applyFilters()">
-        <option value="All">All Categories</option>
-        <option value="Electricity">Electricity</option>
-        <option value="Water">Water</option>
-        <option value="Road">Road</option>
-        <option value="Garbage">Garbage</option>
-      </select>
+    <div class="card">
+      <p>Total Complaints</p>
+      <h2>{{ totalComplaints }}</h2>
+    </div>
 
-      <select [(ngModel)]="statusFilter" (change)="applyFilters()">
-        <option value="All">All Status</option>
-        <option value="Pending">Pending</option>
-        <option value="Approved">Approved</option>
-        <option value="Rejected">Rejected</option>
-      </select>
+    <div class="card">
+      <p>Pending</p>
+      <h2>{{ pendingComplaints }}</h2>
+    </div>
+
+    <div class="card">
+      <p>In Progress</p>
+      <h2>{{ inProgressCount }}</h2>
+    </div>
+
+    <div class="card">
+      <p>Resolved</p>
+      <h2>{{ resolvedComplaints }}</h2>
+    </div>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- 🥧 PIE CHART -->
+  <!-- ===================== -->
+  <div class="chart-box">
+
+    <h2>Status Distribution</h2>
+
+    <div class="pie-container">
+
+      <svg width="220" height="220" viewBox="0 0 36 36">
+
+        <ng-container *ngFor="let s of statusStats; let i = index">
+
+          <circle
+            r="15.9155"
+            cx="18"
+            cy="18"
+            fill="transparent"
+            [attr.stroke]="s.color"
+            stroke-width="3"
+            [attr.stroke-dasharray]="getPieValue(s.count)"
+            [attr.stroke-dashoffset]="getPieOffset(i)">
+          </circle>
+
+        </ng-container>
+
+      </svg>
+
+      <div class="legend">
+
+        <div *ngFor="let s of statusStats">
+          <span [style.background]="s.color"></span>
+          {{ s.status }} ({{ s.count }})
+        </div>
+
+      </div>
 
     </div>
 
-    <!-- TABLE -->
+  </div>
 
-    <div class="table">
+  <!-- ===================== -->
+  <!-- 📊 CATEGORY BAR CHART -->
+  <!-- ===================== -->
+  <div class="chart-box">
 
-      <table>
+    <h2>Category Breakdown</h2>
 
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+    <div class="bar-chart">
 
-        <tbody>
+      <div class="bar-item" *ngFor="let c of categoryStats">
 
-          <tr *ngFor="let c of filteredComplaints">
+        <div
+          class="bar"
+          [style.height]="getBarHeight(c.count)">
+        </div>
 
-            <td>{{c.fullName}}</td>
-            <td>{{c.email}}</td>
-            <td>{{c.category}}</td>
-            <td>{{c.description}}</td>
-            <td>{{c.date}}</td>
+        <small>{{ c.category }}</small>
+        <span>{{ c.count }}</span>
 
-            <td>
-              <span class="status"
-                [ngClass]="{
-                pending:c.status==='Pending',
-                approved:c.status==='Approved',
-                rejected:c.status==='Rejected'
-                }">
-                {{c.status}}
-              </span>
-            </td>
-
-            <td>
-
-              <button
-              class="approve"
-              *ngIf="c.status==='Pending'"
-              (click)="approveComplaint(c.id)">
-              Resolve
-              </button>
-
-              <button
-              class="reject"
-              *ngIf="c.status==='Pending'"
-              (click)="rejectComplaint(c.id)">
-              Reject
-              </button>
-
-            </td>
-
-          </tr>
-
-          <tr *ngIf="filteredComplaints.length===0">
-            <td colspan="7" class="no-data">
-              No complaints found
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
+      </div>
 
     </div>
 
+  </div>
+
+  <!-- ===================== -->
+  <!-- 📈 TREND CHART -->
+  <!-- ===================== -->
+  <div class="chart-box">
+
+    <h2>Complaint Trends</h2>
+
+    <div class="trend-chart">
+
+      <div class="trend-item" *ngFor="let t of trendStats">
+
+        <div
+          class="trend-bar"
+          [style.height]="getTrendHeight(t.count)">
+        </div>
+
+        <small>{{ t.date }}</small>
+        <span>{{ t.count }}</span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===================== -->
+  <!-- RECENT ACTIVITY -->
+  <!-- ===================== -->
+  <div class="table">
+
+    <h2>Recent Activity</h2>
+
+    <table>
+
+      <tr *ngFor="let c of recentComplaints">
+        <td>{{ c.trackingNumber }}</td>
+        <td>{{ c.fullName }}</td>
+        <td>{{ c.status }}</td>
+        <td>{{ c.date | date:'short' }}</td>
+      </tr>
+
+    </table>
+
+  </div>
+
+  <!-- EXPORT -->
+  <button (click)="exportComplaints()">
+    Export Report
+  </button>
+
+</div>
+
+    <!-- ===================== -->
+    <!-- SETTINGS -->
+    <!-- ===================== -->
+   <div *ngIf="activeSection === 'settings'">
+
+  <div class="top">
+    <h1>Settings</h1>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="table">
+    <h2>Profile</h2>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input [(ngModel)]="adminProfile.fullName" />
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input [(ngModel)]="adminProfile.email" />
+    </div>
+
+    <button (click)="saveProfile()">Save Profile</button>
+  </div>
+
+  <!-- PASSWORD -->
+  <div class="table">
+    <h2>Change Password</h2>
+
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" [(ngModel)]="newPassword" />
+    </div>
+
+    <button (click)="changePassword()">Update Password</button>
+  </div>
+
+  <!-- SYSTEM -->
+  <div class="table">
+    <h2>System</h2>
+
+    <button class="danger" (click)="clearComplaints()">
+      Clear All Complaints
+    </button>
+
+    <button class="danger" (click)="resetUsers()">
+      Reset Users
+    </button>
+  </div>
+
+</div>
   </main>
 
 </div>

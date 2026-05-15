@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Poppins',sans-serif;
+}
+
+/* 🔵 FULL PAGE BACKGROUND */
+body{
+  background: linear-gradient(135deg,#dbeafe,#bfdbfe,#93c5fd);
+}
+
+/* LAYOUT */
+.dashboard-container{
+  display:flex;
+  min-height:100vh;
+}
+
+/* 🔥 SIDEBAR (MODERN ADMIN STYLE) */
+.sidebar{
+ width:240px;
+  flex-shrink:0;
+  padding:25px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(13,71,161,0.95),
+    rgba(5,25,60,0.95)
+  );
+
+  backdrop-filter: blur(15px);
+  border-right:1px solid rgba(255,255,255,0.1);
+
+  box-shadow:
+    5px 0 30px rgba(0,0,0,0.4),
+    inset 0 0 20px rgba(255,255,255,0.05);
+}
+
+/* LOGO */
+.logo{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:30px;
+  color:#ffffff;
+}
+
+.logo span{
+  color:#ffd54f; /* 🔥 yellow accent */
+}
+
+/* MENU */
+.menu{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.menu li a{
+  display:block;
+  width:100%;
+
+  padding:12px 15px;
+  border-radius:12px;
+
+  text-decoration:none;
+  color:#cfe8ff;
+
+  transition:0.25s;
+}
+
+/* HOVER */
+.menu li a:hover{
+  background: rgba(255,213,79,0.12);
+  color:#ffffff;
+  transform:translateX(5px);
+}
+
+/* ACTIVE */
+.menu li a.active{
+  background: linear-gradient(135deg,#2196f3,#ffd54f);
+  color:#000;
+  font-weight:600;
+
+  box-shadow:
+    0 6px 18px rgba(255,213,79,0.4),
+    inset 0 0 6px rgba(255,255,255,0.3);
+}
+
+/* LOGOUT BUTTON */
+.logout-btn{
+  margin-top:25px;
+  width:100%;
+  padding:12px;
+
+  border:none;
+  border-radius:12px;
+
+  background: linear-gradient(135deg,#ff4d4d,#ffd54f);
+  color:#000;
+
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.logout-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 15px rgba(255,204,0,0.4);
+}
+
+/* 🔵 MAIN CONTENT */
+/* 🔵 MAIN CONTENT - Re-aligned to match screenshot */
+.main-content {
+  flex: 1;
+  width: 100%;
+  padding: 40px;
+  background: #f4f7fe; /* Solid light background */
+  display: block;      /* Back to standard block flow */
+  overflow-y: auto;
+}
+
+/* Ensure content fills width naturally */
+.main-content > * {
+  width: 100%;
+  max-width: 100%; /* Screenshot uses full width */
+}
+
+/* 🔥 STATS CARD STYLE - Flat & Professional */
+.card {
+  background: #ffffff; /* Solid white */
+  border-radius: 24px;
+  padding: 30px;
+  border: none;        /* Remove the glass border */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* Very soft shadow */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+
+/* Specific fix for the active menu item in the sidebar */
+.menu li a.active {
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%, #f9d423 200%);
+  color: #0d3b66;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+/* 🔥 BUTTON SYSTEM */
+button{
+  border:none;
+  padding:10px 16px;
+  border-radius:10px;
+
+  background: linear-gradient(135deg,#2196f3,#ffd54f);
+  color:#000;
+
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+}

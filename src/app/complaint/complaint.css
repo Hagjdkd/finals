@@ -1,134 +1,138 @@
-/* Page Background */
-
-body{
-  margin:0;
-  font-family:'Segoe UI',sans-serif;
-  background: linear-gradient(135deg,#fff7d6,#ffe8a3);
+/* WRAPPER (fits with sidebar layout) */
+.main {
+  background: rgba(157, 193, 254, 0.65);
 }
-
-/* Wrapper */
-
 .complaint-wrapper{
-  min-height:100vh;
+  min-height:100%;
   display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:40px 20px;
+  justify-content:center;   /* horizontal center */
+  align-items:center;       /* vertical center */
+  padding:40px;
 }
 
-/* Complaint Card */
-
+/* CARD */
 .complaint-card{
   width:100%;
-  max-width:600px;
-  background:rgba(255,255,255,0.9);
-  backdrop-filter:blur(10px);
-  padding:35px;
-  border-radius:16px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+  max-width:720px;
+  background: rgba(157, 193, 254, 0.65);
+  backdrop-filter:blur(18px);
+  padding:40px;
+  border-radius:20px;
+  box-shadow:0 20px 50px rgba(0, 102, 204, 0.15);
+  border:1px solid rgba(0, 102, 204, 0.1);
+  transition:0.3s;
 }
 
-/* Title */
+.complaint-card:hover{
+  transform:translateY(-4px);
+}
 
+/* TITLE */
 .complaint-card h2{
   margin:0;
-  font-size:26px;
-  color:#5a4b00;
+  font-size:30px;
+  color:#0a3d62;
+  font-weight:600;
 }
 
-/* Subtitle */
-
+/* SUBTITLE */
 .subtitle{
-  margin-top:5px;
-  margin-bottom:25px;
-  color:#7a6a00;
+  margin-top:6px;
+  margin-bottom:30px;
+  color:#3c6382;
   font-size:14px;
+  letter-spacing:0.5px;
 }
 
-/* Input Group */
-
+/* INPUT GROUP */
 .input-group{
-  margin-bottom:20px;
+  margin-bottom:22px;
   display:flex;
   flex-direction:column;
 }
 
-/* Labels */
-
+/* LABEL */
 .input-group label{
   font-weight:600;
   margin-bottom:6px;
-  color:#6a5b00;
+  color:#1e5f8a;
 }
 
-/* Inputs */
-
+/* INPUTS */
 .input-group select,
 .input-group textarea{
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #f0d56a;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #d0e6ff;
   font-size:14px;
   background:white;
   transition:0.25s;
 }
 
-/* Focus effect */
-
+/* FOCUS EFFECT */
 .input-group select:focus,
 .input-group textarea:focus{
   outline:none;
-  border-color:#f5b800;
-  box-shadow:0 0 6px rgba(245,184,0,0.3);
+  border-color:#1e90ff;
+  box-shadow:0 0 10px rgba(30,144,255,0.35);
 }
 
-/* Textarea */
-
+/* TEXTAREA */
 textarea{
   resize:none;
+  min-height:120px;
 }
 
-/* Error text */
-
+/* ERROR */
 small{
   color:#e74c3c;
   margin-top:5px;
   font-size:12px;
 }
 
-/* Submit Button */
-
+/* BUTTON */
 .submit-btn{
   width:100%;
-  padding:14px;
+  padding:15px;
   border:none;
-  border-radius:10px;
-  font-size:15px;
+  border-radius:12px;
+  font-size:16px;
   font-weight:600;
-  color:white;
-  background:linear-gradient(135deg,#ffd24d,#ffb703);
+  color:rgb(1, 38, 60);
+  background: rgb(245, 241, 29);
   cursor:pointer;
   transition:0.3s;
 }
 
-/* Button hover */
-
+/* BUTTON HOVER */
 .submit-btn:hover{
-  background:linear-gradient(135deg,#ffc933,#ffa500);
+  background:linear-gradient(135deg,#1c86ee,#005bb5);
   transform:translateY(-2px);
-  box-shadow:0 8px 18px rgba(255,180,0,0.3);
+  box-shadow:0 10px 25px rgba(30,144,255,0.4);
 }
 
-/* Responsive */
+/* BUTTON ACTIVE */
+.submit-btn:active{
+  transform:scale(0.98);
+}
 
-@media(max-width:600px){
+/* INPUT PLACEHOLDER */
+textarea::placeholder{
+  color:#9bbbd4;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+
+  .complaint-wrapper{
+    padding:20px;
+  }
 
   .complaint-card{
     padding:25px;
   }
 
   .complaint-card h2{
-    font-size:22px;
+    font-size:24px;
   }
-
 }

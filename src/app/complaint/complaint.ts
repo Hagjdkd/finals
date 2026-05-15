@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   templateUrl: './complaint.html',
   styleUrls: ['./complaint.css']
 })
-
 export class Complaint {
 
   complaintForm: FormGroup;
@@ -40,6 +39,13 @@ export class Complaint {
     return this.complaintForm.controls;
   }
 
+  // 🔥 GENERATE TRACKING NUMBER
+  generateTracking(): string {
+    const num = Math.floor(100000 + Math.random() * 900000);
+    return `TRK-${num}`;
+  }
+
+  // 🔥 SUBMIT COMPLAINT
   submitComplaint() {
 
     this.submitted = true;
@@ -48,25 +54,28 @@ export class Complaint {
       return;
     }
 
-    const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+    const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    // ✅ Prevent invalid session
+    if (!user.email) {
+      alert('User session expired. Please login again.');
+      this.router.navigate(['/login']);
+      return;
+    }
 
     let complaints = JSON.parse(localStorage.getItem('complaints') || '[]');
 
-    const newComplaint = {
-
-      id: Date.now(),
-
-      userEmail: user.email,
-
-      category: this.complaintForm.value.category,
-
-      description: this.complaintForm.value.description,
-
-      status: "Pending",
-
-      date: new Date().toLocaleDateString()
-
-    };
+   const newComplaint = {
+  id: Date.now(),
+  fullName: user.fullName,
+  email: user.email,
+  userEmail: user.email, // ✅ ADD THIS BACK (compatibility)
+  category: this.complaintForm.value.category,
+  description: this.complaintForm.value.description,
+  trackingNumber: this.generateTracking(),
+  status: "Pending",
+  date: new Date().toISOString()
+};
 
     complaints.push(newComplaint);
 
@@ -75,12 +84,9 @@ export class Complaint {
     alert("Complaint submitted successfully");
 
     this.complaintForm.reset();
-
     this.submitted = false;
 
-    // return to dashboard
-    this.router.navigate(['/dashboard']);
-
+    // redirect after submit
+    this.router.navigate(['/app/my-complaints']);
   }
-
 }

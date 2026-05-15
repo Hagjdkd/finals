@@ -1,1 +1,47 @@
-<p>user works!</p>
+<div class="table">
+
+  <h2>Users</h2>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let u of users; trackBy: trackById">
+
+        <td>{{ u.id }}</td>
+        <td>{{ u.fullName }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+
+        <td>
+          <button
+            class="delete-btn"
+            (click)="deleteUser(u.id)"
+          >
+            Delete
+          </button>
+        </td>
+
+      </tr>
+
+      <tr *ngIf="users.length === 0">
+        <td colspan="5" class="no-data">
+          No users found
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

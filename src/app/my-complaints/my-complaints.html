@@ -1,1 +1,45 @@
-<p>my-complaints works!</p>
+<div class="my-complaints-container">
+
+  <div class="my-header">
+    <h1>My Complaints</h1>
+    <button class="back-btn" routerLink="/dashboard">Back</button>
+  </div>
+
+  <div *ngIf="complaints.length === 0" class="no-data">
+    No complaints found.
+  </div>
+
+  <div *ngIf="complaints.length > 0" class="my-table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let c of complaints">
+          <td>{{ c.category }}</td>
+          <td>{{ c.description }}</td>
+          <td>
+            <span 
+              class="status"
+              [ngClass]="{
+                'pending': c.status === 'Pending',
+                'progress': c.status === 'In Progress',
+                'resolved': c.status === 'Resolved',
+                'rejected': c.status === 'Rejected'
+              }">
+              {{ c.status }}
+            </span>
+          </td>
+          <td>{{ c.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

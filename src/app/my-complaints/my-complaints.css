@@ -1,0 +1,136 @@
+/* CONTAINER */
+.my-complaints-container {
+  padding: 30px;
+  width: fit-content;   /* 🔥 adjusts to content */
+  max-width: 100%;
+
+  background: rgba(157, 193, 254, 0.65);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+
+  margin:0 auto; 
+
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.main-content{
+  display:flex;
+  justify-content:center;   /* center horizontally */
+  align-items:flex-start;   /* don't stretch vertically */
+  padding:40px;
+}
+
+/* HEADER */
+.my-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.my-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #020c55;
+}
+
+/* EMPTY */
+.no-data {
+  text-align: center;
+  margin-top: 50px;
+  color: #5c7ea3;
+  font-size: 16px;
+}
+
+/* TABLE CARD */
+.my-table-card {
+  background: rgb(232, 230, 128);
+
+  border-radius: 16px;
+  padding: 25px;
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.3),
+    inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  
+}
+
+/* HEADERS */
+th {
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+
+  color: #033470; /* 🔥 yellow accent */
+  font-weight: 600;
+
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* CELLS */
+td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 14px;
+  color: #011842;
+}
+
+/* ROW HOVER */
+tr:hover {
+  background: rgba(255,213,79,0.12);
+}
+
+/* STATUS */
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  color: #000;
+}
+
+.pending {
+  background: #ffd54f;
+}
+
+.progress {
+  background: #4fc3f7;
+}
+
+.resolved {
+  background: #81c784;
+}
+
+.rejected {
+  background: #ef5350;
+  color: #fff;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  padding: 10px 15px;
+  border: none;
+
+  background: #ffd54f;
+  color: #000;
+
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}

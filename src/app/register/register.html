@@ -1,9 +1,13 @@
 <div class="register-wrapper">
 
+  <button class="back-btn" (click)="goBack()">← Back</button>
+
   <div class="register-card">
 
     <h2>Create Account</h2>
-    <p class="subtitle">Register to submit and track complaints</p>
+    <p class="subtitle">
+      Register to submit and track complaints
+    </p>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
@@ -50,24 +54,27 @@
         </small>
       </div>
 
+      <!-- Username -->
       <div class="input-group">
         <label>Username</label>
         <input type="text" formControlName="username">
 
         <small *ngIf="submitted && f['username'].errors">
-          Must be at least 4 characters.
+          Username is required
         </small>
       </div>
 
+      <!-- Password -->
       <div class="input-group">
         <label>Password</label>
         <input type="password" formControlName="password">
 
         <small *ngIf="submitted && f['password'].errors">
-          Must be at least 6 characters, include uppercase, lowercase, and a number.
+          Must be at least 6 characters, include uppercase and a number.
         </small>
       </div>
 
+      <!-- Confirm Password -->
       <div class="input-group">
         <label>Confirm Password</label>
         <input type="password" formControlName="confirmPassword">
@@ -77,6 +84,7 @@
         </small>
       </div>
 
+      <!-- Category -->
       <div class="input-group">
         <label>Primary Complaint Category</label>
 
@@ -88,62 +96,14 @@
           </option>
 
         </select>
-
-        <small *ngIf="submitted && f['complaintCategory'].errors">
-          Please select a category
-        </small>
-
       </div>
 
+      <!-- BUTTON -->
       <button type="submit" class="register-btn">
         Register
       </button>
 
     </form>
-
-  </div>
-
-
-  <div class="users-table">
-
-    <h3>Registered Users</h3>
-
-    <table>
-
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Contact</th>
-        </tr>
-      </thead>
-
-      <tbody>
-
-        <tr *ngFor="let user of users">
-
-          <td>{{user.id}}</td>
-
-          <td>{{user.fullName}}</td>
-
-          <td>{{user.email}}</td>
-
-          <td>{{user.contactNumber}}</td>
-
-        </tr>
-
-        <tr *ngIf="users.length === 0">
-
-          <td colspan="4" class="no-data">
-            No users registered yet
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
 
   </div>
 
