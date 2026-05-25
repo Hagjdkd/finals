@@ -1,0 +1,106 @@
+<div class="staff-wrapper">
+
+  <div class="header">
+
+    <h1>Staff Dashboard</h1>
+
+    <div class="header-actions">
+
+      <div class="info-box">
+        <p><strong>Name:</strong> {{ user?.fullName }}</p>
+        <p><strong>Email:</strong> {{ user?.email }}</p>
+        <p><strong>Category:</strong> {{ getCategory() }}</p>
+      </div>
+
+      <!-- LOGOUT BUTTON -->
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="table-container">
+
+    <h2>Assigned Complaints</h2>
+
+    <table *ngIf="complaints.length > 0">
+
+      <thead>
+        <tr>
+          <th>Tracking</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let c of complaints">
+
+          <td>{{ c.trackingNumber }}</td>
+
+          <td>{{ c.description }}</td>
+
+          <td>
+
+            <span
+              class="status"
+              [ngClass]="c.status.toLowerCase().replace(' ', '-')">
+
+              {{ c.status }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <select
+              [(ngModel)]="c.status"
+              (change)="updateStatus(c.id, c.status)">
+
+              <option>Pending</option>
+              <option>In Progress</option>
+              <option>Resolved</option>
+
+            </select>
+
+            <!-- RESOLUTION -->
+            <textarea
+              [(ngModel)]="c.resolution"
+              placeholder="Enter resolution details..."
+              class="resolution-box">
+            </textarea>
+
+            <!-- IMAGE -->
+            <input
+              type="file"
+              (change)="onFileSelected($event, c)" />
+
+            <!-- SAVE -->
+            <button
+              class="save-btn"
+              (click)="saveResolution(c)">
+
+              Save Resolution
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <div *ngIf="complaints.length === 0" class="empty">
+      No assigned complaints found.
+    </div>
+
+  </div>
+
+</div>

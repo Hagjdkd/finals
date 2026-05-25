@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Arvo:wght@700&display=swap">
 <div class="login-wrapper">
 
   <button class="back-btn" (click)="goBack()">← Back</button>
@@ -35,10 +36,15 @@
           placeholder="Password">
 
         <small *ngIf="submitted && loginForm.controls['password'].errors" class="error-msg">
-          <span *ngIf="loginForm.controls['password'].errors?.['required']">
+          <span *ngIf="loginForm.controls['password'].errors['required']">
             Password is required
           </span>
         </small>
+      </div>
+
+      <!-- FORGOT PASSWORD LINK -->
+      <div class="forgot-password-link">
+        <a routerLink="/forgot-password">Forgot password?</a>
       </div>
 
       <!-- LOGIN BUTTON -->

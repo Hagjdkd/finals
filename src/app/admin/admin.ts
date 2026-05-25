@@ -3,7 +3,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
-import { UserComponent } from '../user/user';
 
 interface Complaint {
   id?: number;
@@ -15,16 +14,19 @@ interface Complaint {
   date: string;
   status: string;
   trackingNumber?: string;
-
   priority?: string;
   assignedTo?: string;
   escalated?: boolean;
+   // NEW
+  resolution?: string;
+  proofImage?: string;
+  updatedAt?: string;
 }
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, UserComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin.html',
   styleUrls: ['./admin.css']
 })
@@ -37,40 +39,146 @@ export class Admin implements OnInit {
   filteredComplaints: Complaint[] = [];
   users: User[] = [];
 
+  storedRegisteredUsers: any[] = [];
+
+  selectedUser: any = { fullName: '', email: '', role: 'user' };
+  isEditMode = false;
+
   totalUsers = 0;
   pendingComplaints = 0;
   resolvedComplaints = 0;
   inProgressCount = 0;
   totalComplaints = 0;
 
+  isUserModalOpen = false;
+
   searchTerm = '';
   categoryFilter = 'All';
   statusFilter = 'All';
 
-  activeSection: string = 'dashboard';
+  activeSection = 'dashboard';
 
   adminProfile = { fullName: '', email: '' };
   newPassword = '';
 
-  // ===================== ANALYTICS =====================
-  categoryStats: { category: string; count: number; percentage?: number }[] = [];
-  trendStats: { date: string; count: number }[] = [];
-  recentComplaints: Complaint[] = [];
-
-  statusStats: { status: string; count: number; color: string }[] = [];
+  categoryStats: any[] = [];
+  trendStats: any[] = [];
+  recentComplaints: any[] = [];
+  statusStats: any[] = [];
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.checkAccess();
-    this.initializeAdmin();
-    this.loadData();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkAccess();
+      this.initializeAdmin();
+      this.loadUsers();
+      this.loadData();
+      this.loadConnectedUsers();
+    }
   }
 
+  // ===================== FIX: SAFE LOCALSTORAGE =====================
+  safeSetUsers(users: any[]) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+  }
+
+  safeGetUsers(): any[] {
+    if (!isPlatformBrowser(this.platformId)) return [];
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  }
+
+  // ===================== NAV =====================
   setSection(section: string) {
     this.activeSection = section;
   }
 
+  // ===================== USER MODAL =====================
+ // ===================== USER MODAL =====================
+  openUserModal() {
+    this.isEditMode = false;
+    this.selectedUser = { 
+      fullName: '', 
+      email: '', 
+      role: 'user', 
+      password: '', 
+      staffCategory: 'room' 
+    };
+    this.isUserModalOpen = true;
+  }
+
+  closeUserModal() {
+    this.isUserModalOpen = false;
+  }
+
+  // ===================== USERS CRUD =====================
+  createUser(form: any) {
+    const users = this.safeGetUsers();
+
+    users.push({
+      id: Date.now(),
+      fullName: form.fullName,
+      email: form.email,
+      password: form.password || 'User123!',
+      role: form.role || 'user',
+      staffCategory: form.role?.toLowerCase() === 'staff' ? (form.staffCategory || 'room') : ''
+    });
+
+    this.safeSetUsers(users);
+    this.loadConnectedUsers();
+  }
+
+  editUser(user: any) {
+    // Structural object clone layout map to prevent live mutations on cancel events
+    this.selectedUser = { 
+      ...user,
+      password: user.password || '',
+      staffCategory: user.staffCategory || 'room'
+    };
+    this.isEditMode = true;
+    this.isUserModalOpen = true;
+  }
+
+  deleteUser(id: number) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      let users = this.safeGetUsers().filter(u => u.id !== id);
+      this.safeSetUsers(users);
+      this.loadConnectedUsers();
+    }
+  }
+
+  updateUser() {
+    let users = this.safeGetUsers();
+
+    users = users.map(u => {
+      if (u.id === this.selectedUser.id) {
+        // Enforce structural cleanup if context drops staff status roles
+        if (this.selectedUser.role?.toLowerCase() !== 'staff') {
+          this.selectedUser.staffCategory = '';
+        }
+        return this.selectedUser;
+      }
+      return u;
+    });
+
+    this.safeSetUsers(users);
+
+    this.isEditMode = false;
+    this.selectedUser = { fullName: '', email: '', role: 'user', password: '', staffCategory: '' };
+
+    this.loadConnectedUsers();
+  }
+
+  loadUsers() {
+    this.users = this.safeGetUsers();
+  }
+
+  loadConnectedUsers(): void {
+    this.storedRegisteredUsers = this.safeGetUsers();
+    this.calculateStats();
+  }
   // ===================== ACCESS =====================
   checkAccess() {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -83,266 +191,172 @@ export class Admin implements OnInit {
     }
   }
 
-  // ===================== ADMIN INIT =====================
   initializeAdmin() {
-    if (!isPlatformBrowser(this.platformId)) return;
+    const users = this.safeGetUsers();
 
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const exists = users.some(u => u.role === 'admin');
 
-    const adminExists = users.some((u: any) => u.role === 'admin');
-
-    if (!adminExists) {
+    if (!exists) {
       users.push({
         id: 1,
         fullName: 'System Administrator',
-        email: 'admin@bryztoff.com',
+        email: 'admin@system.com',
         password: 'admin123',
         role: 'admin'
       });
 
-      localStorage.setItem('users', JSON.stringify(users));
+      this.safeSetUsers(users);
     }
   }
 
-  // ===================== LOAD DATA =====================
+  // ===================== COMPLAINTS =====================
   loadData() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const storedComplaints = JSON.parse(localStorage.getItem('complaints') || '[]');
+    const stored = JSON.parse(localStorage.getItem('complaints') || '[]');
 
-    this.users = storedUsers;
-
-    this.complaints = storedComplaints.map((c: any, index: number) => ({
-      id: c.id || index + 1,
+    this.complaints = stored.map((c: any, i: number) => ({
+      id: c.id || i + 1,
       fullName: c.fullName || c.name || 'Guest',
-      email: c.email || 'N/A',
+      email: c.email || '',
       category: c.category,
       description: c.description,
       date: c.date || new Date().toISOString(),
-      status: this.formatStatus(c.status),
-      trackingNumber: c.trackingNumber || 'TRK-000000',
-      priority: c.priority || this.setPriority(c.description),
-      assignedTo: c.assignedTo || this.autoAssign(c.category),
-      escalated: c.escalated || false
+      status: c.status || 'Pending',
+      trackingNumber: c.trackingNumber || 'TRK-000',
+      priority: c.priority || 'Low',
+      assignedTo: c.assignedTo || 'Unassigned'
     }));
 
     this.filteredComplaints = [...this.complaints];
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-
-    if (currentUser) {
-      this.adminProfile.fullName = currentUser.fullName;
-      this.adminProfile.email = currentUser.email;
-    }
-
     this.calculateStats();
     this.applyFilters();
   }
+  // ===================== ANALYTICS HELPERS =====================
 
-  // ===================== STATUS FORMAT =====================
-  formatStatus(status: string): string {
-    if (!status) return 'Pending';
+getBarHeight(count: number) {
+  const max = Math.max(...this.categoryStats.map(x => x.count || 1), 1);
+  return (count / max) * 160 + 'px';
+}
 
-    const s = status.toLowerCase();
-    if (s.includes('progress')) return 'In Progress';
-    if (s.includes('resolve')) return 'Resolved';
+getTrendHeight(count: number) {
+  const max = Math.max(...this.trendStats.map(x => x.count || 1), 1);
+  return (count / max) * 140 + 'px';
+}
 
-    return 'Pending';
+getPieValue(count: number) {
+  const total = this.statusStats.reduce((a, b) => a + b.count, 0) || 1;
+  return `${(count / total) * 440} 440`;
+}
+
+getPieOffset(index: number) {
+  const total = this.statusStats.reduce((a, b) => a + b.count, 0) || 1;
+
+  let offset = 0;
+  for (let i = 0; i < index; i++) {
+    offset += (this.statusStats[i].count / total) * 440;
   }
 
-  // ===================== AUTO LOGIC =====================
-  autoAssign(category: string): string {
-    switch ((category || '').toLowerCase()) {
-      case 'it': return 'IT Department';
-      case 'billing': return 'Finance Department';
-      case 'maintenance': return 'Maintenance Team';
-      default: return 'General Support';
-    }
-  }
-
-  setPriority(description: string): 'Low' | 'Medium' | 'High' {
-    const text = (description || '').toLowerCase();
-
-    if (text.includes('urgent') || text.includes('emergency')) return 'High';
-    if (text.includes('delay') || text.includes('slow')) return 'Medium';
-
-    return 'Low';
-  }
-
-  // ===================== ESCALATION =====================
-  checkEscalations() {
-    const now = new Date().getTime();
-
-    this.complaints.forEach(c => {
-      const created = new Date(c.date).getTime();
-      const hours = (now - created) / (1000 * 60 * 60);
-
-      if (c.status === 'Pending' && hours > 24) {
-        c.priority = 'High';
-        c.escalated = true;
-      }
-    });
-
-    localStorage.setItem('complaints', JSON.stringify(this.complaints));
-  }
-
-  // ===================== STATS =====================
-  calculateStats() {
-
-    this.totalUsers = this.users.filter(u => u.role === 'user').length;
-
-    this.pendingComplaints = this.complaints.filter(c => c.status === 'Pending').length;
-    this.resolvedComplaints = this.complaints.filter(c => c.status === 'Resolved').length;
-    this.inProgressCount = this.complaints.filter(c => c.status === 'In Progress').length;
-
-    this.totalComplaints = this.complaints.length;
-
-    this.calculateCategoryStats();
-    this.calculateTrendStats();
-    this.calculateRecentActivity();
-    this.calculateStatusStats();
-  }
-
-  // ===================== PIE CHART DATA =====================
-  calculateStatusStats() {
-
-    const total = this.totalComplaints || 1;
-
-    this.statusStats = [
-      {
-        status: 'Pending',
-        count: this.pendingComplaints,
-        color: '#f59e0b'
-      },
-      {
-        status: 'In Progress',
-        count: this.inProgressCount,
-        color: '#3b82f6'
-      },
-      {
-        status: 'Resolved',
-        count: this.resolvedComplaints,
-        color: '#10b981'
-      }
-    ].map(s => ({
-      ...s,
-      percentage: Math.round((s.count / total) * 100)
-    }));
-  }
-
-  // ===================== CATEGORY =====================
-  calculateCategoryStats() {
-    const map: any = {};
-
-    this.complaints.forEach(c => {
-      const cat = c.category || 'Other';
-      map[cat] = (map[cat] || 0) + 1;
-    });
-
-    this.categoryStats = Object.keys(map).map(key => ({
-      category: key,
-      count: map[key],
-      percentage: Math.round((map[key] / this.totalComplaints) * 100)
-    }));
-  }
-
-  // ===================== TREND =====================
-  calculateTrendStats() {
-    const map: any = {};
-
-    this.complaints.forEach(c => {
-      const date = new Date(c.date).toLocaleDateString();
-      map[date] = (map[date] || 0) + 1;
-    });
-
-    this.trendStats = Object.keys(map).map(key => ({
-      date: key,
-      count: map[key]
-    }));
-  }
-
-  // ===================== RECENT =====================
-  calculateRecentActivity() {
-    this.recentComplaints = [...this.complaints]
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 5);
-  }
-
-  // ===================== GRAPH HELPERS =====================
-  getBarHeight(count: number) {
-    const max = Math.max(...this.categoryStats.map(c => c.count || 1), 1);
-    return (count / max) * 160 + 'px';
-  }
-
-  getTrendHeight(count: number) {
-    const max = Math.max(...this.trendStats.map(t => t.count || 1), 1);
-    return (count / max) * 140 + 'px';
-  }
-
-  getPieValue(count: number) {
-    const total = this.statusStats.reduce((sum, s) => sum + s.count, 0) || 1;
-    return `${(count / total) * 440} 440`;
-  }
-
-  getPieOffset(index: number) {
-    const total = this.statusStats.reduce((sum, s) => sum + s.count, 0) || 1;
-
-    let offset = 0;
-    for (let i = 0; i < index; i++) {
-      offset += (this.statusStats[i].count / total) * 440;
-    }
-
-    return -offset;
-  }
-
-  // ===================== FILTER =====================
+  return -offset;
+}
   applyFilters() {
-    this.filteredComplaints = this.complaints.filter(c => {
+    const s = this.searchTerm.toLowerCase();
 
-      const search = this.searchTerm.toLowerCase();
-
-      const matchSearch =
-        (c.fullName || '').toLowerCase().includes(search) ||
-        (c.email || '').toLowerCase().includes(search) ||
-        (c.trackingNumber || '').toLowerCase().includes(search);
-
-      const matchCategory =
-        this.categoryFilter === 'All' || c.category === this.categoryFilter;
-
-      const matchStatus =
-        this.statusFilter === 'All' || c.status === this.statusFilter;
-
-      return matchSearch && matchCategory && matchStatus;
-    });
+    this.filteredComplaints = this.complaints.filter(c =>
+      (c.fullName || '').toLowerCase().includes(s) ||
+      (c.email || '').toLowerCase().includes(s) ||
+      (c.trackingNumber || '').toLowerCase().includes(s)
+    );
   }
 
-  // ===================== UPDATE =====================
-  updateStatus(id: number | undefined, status: string) {
+  updateStatus(id?: number, status?: string) {
     const c = this.complaints.find(x => x.id === id);
-    if (c) c.status = status;
-
-    localStorage.setItem('complaints', JSON.stringify(this.complaints));
-    this.loadData();
+    if (c) c.status = status || 'Pending';
+    this.saveComplaints();
   }
 
-  updatePriority(id: number | undefined, priority?: string) {
+  updatePriority(id?: number, priority?: string) {
     const c = this.complaints.find(x => x.id === id);
     if (c) c.priority = priority || 'Low';
-
-    localStorage.setItem('complaints', JSON.stringify(this.complaints));
-    this.loadData();
+    this.saveComplaints();
   }
 
-  assignComplaint(id: number | undefined, dept?: string) {
+  assignComplaint(id?: number, dept?: string) {
     const c = this.complaints.find(x => x.id === id);
     if (c) c.assignedTo = dept || 'Unassigned';
-
-    localStorage.setItem('complaints', JSON.stringify(this.complaints));
-    this.loadData();
+    this.saveComplaints();
   }
 
-  // ===================== EXPORT =====================
+  saveComplaints() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('complaints', JSON.stringify(this.complaints));
+    }
+  }
+
+ // ===================== STATS (FIXED + FULL ANALYTICS) =====================
+calculateStats() {
+  this.totalUsers = this.users.length;
+  this.totalComplaints = this.complaints.length;
+
+  this.pendingComplaints = this.complaints.filter(c => c.status === 'Pending').length;
+  this.resolvedComplaints = this.complaints.filter(c => c.status === 'Resolved').length;
+  this.inProgressCount = this.complaints.filter(c => c.status === 'In Progress').length;
+
+  // ================= PIE CHART DATA =================
+  this.statusStats = [
+    { status: 'Pending', count: this.pendingComplaints, color: '#f59e0b' },
+    { status: 'In Progress', count: this.inProgressCount, color: '#3b82f6' },
+    { status: 'Resolved', count: this.resolvedComplaints, color: '#10b981' }
+  ];
+
+  // ================= CATEGORY CHART =================
+  const categoryMap: any = {};
+  this.complaints.forEach(c => {
+    const key = c.category || 'Other';
+    categoryMap[key] = (categoryMap[key] || 0) + 1;
+  });
+
+  this.categoryStats = Object.keys(categoryMap).map(key => ({
+    category: key,
+    count: categoryMap[key]
+  }));
+
+  // ================= TREND CHART =================
+  const trendMap: any = {};
+  this.complaints.forEach(c => {
+    const date = new Date(c.date).toLocaleDateString();
+    trendMap[date] = (trendMap[date] || 0) + 1;
+  });
+
+  this.trendStats = Object.keys(trendMap).map(date => ({
+    date,
+    count: trendMap[date]
+  }));
+}
+
+  // ===================== USER MODAL SAVE =====================
+  saveUserFromModal() {
+    const users = this.safeGetUsers();
+
+    if (this.isEditMode) {
+      const index = users.findIndex(u => u.id === this.selectedUser.id);
+      if (index !== -1) users[index] = this.selectedUser;
+    } else {
+      users.push({
+        id: Date.now(),
+        fullName: this.selectedUser.fullName,
+        email: this.selectedUser.email,
+        role: this.selectedUser.role
+      });
+    }
+
+    this.safeSetUsers(users);
+    this.loadConnectedUsers();
+    this.closeUserModal();
+  }
+
+  // ===================== REPORT =====================
   exportComplaints() {
     const headers = ['Tracking', 'Name', 'Email', 'Category', 'Status', 'Date'];
 
@@ -358,59 +372,46 @@ export class Admin implements OnInit {
     const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
 
     const blob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
+    const a = document.createElement('a');
 
-    link.href = URL.createObjectURL(blob);
-    link.download = 'report.csv';
-    link.click();
+    a.href = URL.createObjectURL(blob);
+    a.download = 'complaints-report.csv';
+    a.click();
   }
 
-  // ===================== PROFILE =====================
-  saveProfile() {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    const admin = users.find((u: any) => u.role === 'admin');
-
-    if (admin) {
-      admin.fullName = this.adminProfile.fullName;
-      admin.email = this.adminProfile.email;
-
-      localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('currentUser', JSON.stringify(admin));
-
-      alert('Profile updated');
-    }
-  }
-
-  changePassword() {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    const admin = users.find((u: any) => u.role === 'admin');
-
-    if (admin) {
-      admin.password = this.newPassword;
-      localStorage.setItem('users', JSON.stringify(users));
-
-      alert('Password updated');
-      this.newPassword = '';
-    }
-  }
-
-  // ===================== SYSTEM =====================
+  // ===================== SETTINGS =====================
   clearComplaints() {
-    localStorage.removeItem('complaints');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('complaints');
+    }
     this.loadData();
   }
 
   resetUsers() {
-    localStorage.removeItem('users');
+    this.safeSetUsers([]);
     this.initializeAdmin();
-    this.loadData();
+    this.loadConnectedUsers();
   }
 
-  // ===================== LOGOUT =====================
+  saveProfile() {
+    const users = this.safeGetUsers();
+    const admin = users.find(u => u.role === 'admin');
+
+    if (admin) {
+      admin.fullName = this.adminProfile.fullName;
+      admin.email = this.adminProfile.email;
+      this.safeSetUsers(users);
+    }
+  }
+
+  changePassword() {
+    this.newPassword = '';
+  }
+
   logout() {
-    localStorage.removeItem('currentUser');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('currentUser');
+    }
     this.router.navigate(['/login']);
   }
 }

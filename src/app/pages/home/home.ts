@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +25,14 @@ export class Home implements OnInit {
     message: ''
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
-    this.loadComplaints();
-    this.loadTestimonials();
+    // Only access browser APIs on the client
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadComplaints();
+      this.loadTestimonials();
+    }
   }
 
   // =========================
@@ -148,11 +151,13 @@ export class Home implements OnInit {
   // CAROUSEL
   // =========================
   scrollLeft() {
+    if (!isPlatformBrowser(this.platformId)) return;
     const el = document.querySelector('.steps-carousel');
     el?.scrollBy({ left: -320, behavior: 'smooth' });
   }
 
   scrollRight() {
+    if (!isPlatformBrowser(this.platformId)) return;
     const el = document.querySelector('.steps-carousel');
     el?.scrollBy({ left: 320, behavior: 'smooth' });
   }

@@ -1,33 +1,63 @@
-/* FULL FIXED UNIFIED CSS */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* ==========================================================================
+   CAMP BRYZTOFF ALL-IN-ONE SYSTEM STYLES (DASHBOARD CORE EXTENSION)
+   ========================================================================== */
 
+/* GLOBAL TYPE CONFIGURATION */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif; /* Clean, modern body text readability */
 }
 
 body {
-  background: #f4f7fe;
+  /* Dynamic backdrop layer using the system's blurred resort landscape context */
+  background:
+    linear-gradient(rgba(28, 27, 53, 0.45), rgba(28, 27, 53, 0.6)),
+    url('/assets/images/resort.jpg');
+  background-size: cover;
+  background-position: center;
   min-height: 100vh;
   display: flex;
 }
 
+/* TYPOGRAPHY HEADINGS (Highly legible, themed slab-serif applied systematically) */
+h1, h2, h3, h4, .logo, .logo-text, .success-card .track-id, .success-container strong, .track-card h1, .login-card h1, .header h1, .table-card h2 {
+  font-family: 'ChunkFive', 'Arvo', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* 🪐 UNIFIED SYSTEM CONTAINER GLASS CANVAS */
 .dashboard-container {
   display: flex;
   width: 100%;
+  min-height: 100vh;
+  padding: 30px;
+  gap: 25px;
+  /* Flagship brand background linear-gradient mapped across the dashboard matrix */
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-/* --- SIDEBAR --- */
+/* ==========================================================================
+   SIDEBAR ARCHITECTURE (FROSTED OVERLAY CONSOLE)
+   ========================================================================== */
 .sidebar {
   width: 260px;
   flex-shrink: 0;
-  background: linear-gradient(180deg, #0d3b66 0%, #05193c 100%);
+  background: rgba(28, 27, 53, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
   padding: 40px 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25),
+    inset 0 0 15px rgba(255, 255, 255, 0.05);
 }
 
 .logo {
@@ -38,8 +68,9 @@ body {
   margin-bottom: 50px;
 }
 
+/* Accent span matched to the clean secondary silver/white tone */
 .logo span {
-  color: #ffd54f;
+  color: #e0e4ff;
 }
 
 .menu {
@@ -55,27 +86,43 @@ body {
 .menu li a {
   display: block;
   padding: 14px 20px;
-  color: #cfe8ff;
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
   border-radius: 12px;
   font-size: 15px;
-  transition: 0.3s;
+  font-weight: 500;
+  transition: 0.3s ease;
 }
 
+.menu li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Active navigation indicators pop cleanly inside the dark frosted console layout */
 .menu li a.active {
-  background: linear-gradient(90deg, #42a5f5 0%, #ffd54f 160%);
-  color: #000;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* --- MAIN CONTENT (FIXED) --- */
+/* ==========================================================================
+   MAIN CONTENT WORKSPACE MODULE
+   ========================================================================== */
 .main {
   flex: 1;
   width: 100%;
-  padding: 50px;
-  background: transparent;
-  display: block; /* Changed from flex center to allow natural flow */
+  padding: 40px;
+  background: rgba(28, 27, 53, 0.35);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  display: block; 
+  overflow-y: auto;
 }
 
 .header {
@@ -86,36 +133,42 @@ body {
 }
 
 .welcome {
-  color: #8da2fb;
-  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   margin-bottom: 5px;
 }
 
 .header h1 {
-  font-size: 42px;
-  color: #0d3b66;
-  font-weight: 700;
+  font-size: 38px;
+  color: #ffffff;
 }
 
-/* Profile Chip */
+/* Profile Glass Chip */
 .profile {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
   padding: 10px 25px;
   border-radius: 18px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .avatar {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: #2196f3;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-/* --- STATS CARDS --- */
+/* ==========================================================================
+   DASHBOARD CARDS (FROSTED GRID BLOCKS)
+   ========================================================================== */
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -124,41 +177,55 @@ body {
 }
 
 .card {
-  background: white;
+  background: rgba(28, 27, 53, 0.45);
   border-radius: 25px;
   padding: 35px 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 10px rgba(255, 255, 255, 0.02);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 200px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  background: rgba(28, 27, 53, 0.55);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .card h3 {
-  color: #0d3b66;
-  font-size: 24px;
-  line-height: 1.2;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   max-width: 140px;
 }
 
+/* Primary numerical output monitors crisp white metrics */
 .card p {
   font-size: 48px;
   font-weight: 700;
-  color: #1976d2;
+  color: #ffffff;
 }
 
-/* --- TABLE SECTION --- */
+/* ==========================================================================
+   TABLE GRID FRAMEWORK & STATUS PILLS
+   ========================================================================== */
 .table-card {
-  background: white;
+  background: rgba(28, 27, 53, 0.35);
   border-radius: 25px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
 .table-card h2 {
   padding: 30px 30px 20px;
-  color: #0d3b66;
+  color: #ffffff;
   font-size: 24px;
 }
 
@@ -168,32 +235,98 @@ table {
 }
 
 th {
-  background: #1976d2;
-  color: white;
+  background: rgba(0, 0, 0, 0.15);
+  color: rgba(255, 255, 255, 0.55);
   padding: 20px 30px;
   text-align: left;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 td {
   padding: 22px 30px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #334155;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
 }
 
-/* --- STATUS PILLS --- */
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* UNIFIED SYSTEM STATUS PILLS */
 .status {
-  padding: 8px 18px;
-  border-radius: 12px;
-  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
   font-weight: 600;
   display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
 }
 
-.pending { background: #fff3cd; color: #856404; }
-.resolved { background: #d4edda; color: #155724; }
+.pending { 
+  background: #ffb300; 
+  color: #121124; 
+}
 
-/* RESPONSIVE */
-@media(max-width: 1200px) {
+.resolved { 
+  background: #4caf50; 
+  color: white;
+}
+.resolution-section{
+  margin-top:15px;
+  padding:15px;
+  border-radius:12px;
+  background:#1f2937;
+  color:#fff;
+}
+
+.proof-container{
+  margin-top:10px;
+}
+
+.proof-image{
+  width:100%;
+  max-width:300px;
+  border-radius:10px;
+  border:2px solid #374151;
+}
+
+.proof-image {
+  width: 100%;
+  max-width: 350px;
+  margin-top: 15px;
+  border-radius: 12px;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT CONSTRAINTS
+   ========================================================================== */
+@media(max-width: 1400px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media(max-width: 992px) {
+  .dashboard-container { flex-direction: column; padding: 15px; gap: 15px; }
+  .sidebar { width: 100%; min-height: auto; padding: 20px 0; }
+  .logo { margin-bottom: 20px; text-align: center; }
+  .main { padding: 30px 20px; }
+  .stats { grid-template-columns: 1fr; }
 }

@@ -1,77 +1,121 @@
+/* ==========================================================================
+   CAMP BRYZTOFF LOGIN & SUCCESS SYSTEM STYLES
+   ========================================================================== */
+
+/* GLOBAL FONT CONFIG FOR LOGIN CONTEXT */
+.login-wrapper * {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Structural labels, headings, and bold ID numbers use the clear Slab title font */
+.login-wrapper h1, 
+.login-wrapper h2, 
+.login-wrapper h3, 
+.login-card title, 
+.success-card .track-id, 
+.success-container strong {
+  font-family: 'ChunkFive', 'Arvo', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* LOGIN WRAPPER BACKGROUND OVERLAY FIXED FROM DARK GREEN TO LOGO PLUM/NAVY */
 .login-wrapper {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px; /* 👈 spacing between form & success */
+  gap: 30px; /* spacing between form & success */
 
   background:
-    linear-gradient(rgba(0,40,20,0.7), rgba(0,40,20,0.7)),
+    linear-gradient(rgba(28, 27, 53, 0.75), rgba(28, 27, 53, 0.85)),
     url('/assets/images/resort.jpg');
 
   background-size: cover;
   background-position: center;
 }
 
-/* CARD */
+/* CARD UI - Tinted subtly towards theme tones */
 .login-card {
   width: 380px;
   padding: 40px 30px;
 
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(12px);
 
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   color: white;
   text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
-/* REMOVE WAVE */
+/* REMOVE WAVE EFFECT */
 .login-card::after {
   display: none;
 }
 
-/* TEXT */
+/* TEXT FORMATTING */
 .subtitle {
   font-size: 12px;
   letter-spacing: 2px;
   margin-bottom: 15px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .login-hint {
   font-size: 12px;
   margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
+/* Swapped green to an bright accent highlight node matching the light purple start */
 .login-hint span {
-  color: #4caf50;
+  color: #a3b2ff;
   cursor: pointer;
   font-weight: bold;
+  transition: 0.2s;
 }
 
-/* GUEST */
+.login-hint span:hover {
+  text-decoration: underline;
+}
+
+/* GUEST ELEMENT */
 .guest-toggle {
   margin-bottom: 15px;
   font-size: 13px;
 }
 
-/* INPUTS */
+/* FORM FORM FIELDS WITH BETTER FOCUS CONTRAST */
 input, select, textarea {
   width: 100%;
   padding: 12px;
   margin-bottom: 10px;
 
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
   text-align: center;
+  transition: all 0.3s ease;
 }
 
-/* BUTTON */
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #756fd8;
+  box-shadow: 0 0 10px rgba(117, 111, 216, 0.3);
+}
+
+/* BUTTON MATCHED TO BRAND GRAPHIC GRADIENT */
 .login-btn {
   width: 100%;
   padding: 14px;
@@ -80,7 +124,7 @@ input, select, textarea {
   border-radius: 25px;
   border: none;
 
-  background: linear-gradient(135deg,#2e7d32,#4caf50);
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
   color: white;
   font-weight: bold;
 
@@ -90,74 +134,97 @@ input, select, textarea {
 
 .login-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(95, 118, 232, 0.4);
 }
 
-/* ERROR */
+/* FORM ERROR NOTICES */
 .error-msg {
   font-size: 11px;
-  color: #ffdede;
+  color: #ffbaba;
+  font-weight: 500;
+  margin-top: 4px;
 }
 
-/* SUCCESS */
+/* SUCCESS BANNER OR DIALOGS */
 .success-card {
   width: 360px;
-  padding: 20px;
+  padding: 25px;
 
-  background: rgba(0,0,0,0.6);
+  background: rgba(18, 17, 36, 0.85);
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   border-radius: 15px;
   text-align: center;
   color: white;
 
   animation: fadeUp 0.4s ease;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 }
 
+/* Fixed Text Gradient injection for tracking code text labels */
 .success-card .track-id {
-  font-size: 20px;
-  font-weight: bold;
-  color: #4caf50;
-  margin: 10px 0;
+  font-size: 22px;
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 12px 0;
 }
 
 .success-card button {
   margin-top: 10px;
-  padding: 10px 20px;
+  padding: 10px 24px;
 
   border: none;
   border-radius: 20px;
 
-  background: #4caf50;
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
   color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
 }
+
+.success-card button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* CONTAINER INLINE SUCCESS */
 .success-container {
   margin-top: 20px;
-  padding: 20px;
+  padding: 25px;
 
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(18, 17, 36, 0.85);
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   border-radius: 16px;
   text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 
   animation: fadeUp 0.4s ease;
 }
 
+/* Strong confirmation outputs utilize the tracking gradient color */
 .success-container strong {
   display: block;
-  font-size: 20px;
-  margin: 10px 0;
-  color: #4caf50;
+  font-size: 22px;
+  margin: 12px 0;
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* TRACK SYSTEM BUTTON */
 .track-btn {
   margin-top: 12px;
-  padding: 12px 20px;
+  padding: 12px 24px;
 
   border: none;
   border-radius: 25px;
 
-  background: linear-gradient(135deg, #2e7d32, #4caf50);
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
   color: white;
   font-weight: bold;
 
@@ -167,28 +234,36 @@ input, select, textarea {
 
 .track-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 20px rgba(95, 118, 232, 0.4);
 }
+
+/* CLEAN MODERN RE-STYLED BACK NAVIGATION NAV NODE */
 .back-btn {
-  position: fixed;        /* 🔥 stays in top-left of screen */
+  position: fixed;         /* stays in top-left of screen */
   top: 20px;
   left: 20px;
 
-  background-color: #4caf50;
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
   color: #fff;
   border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 30px;    /* Rounded pills match the design language */
+  font-weight: 600;
 
   font-size: 14px;
   cursor: pointer;
   z-index: 1000;          /* stays above everything */
+  transition: 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .back-btn:hover {
-  background-color: #000;
+  background: #1c1b35;
+  color: white;
+  transform: translateX(-2px);
 }
 
+/* KEYFRAMES DISPLAY */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -198,6 +273,4 @@ input, select, textarea {
     opacity: 1;
     transform: translateY(0);
   }
-
-  
 }

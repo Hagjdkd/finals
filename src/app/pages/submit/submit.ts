@@ -15,6 +15,14 @@ export class Submit implements OnInit {
 
   complaintForm!: FormGroup;
 
+  selectedImage: string | null = null;
+  imagePreview: string | null = null;
+
+   // NEW
+  resolution?: string;
+  proofImage?: string;
+  updatedAt?: string;
+
   submitted = false;
   success = false;
   trackingNumber = '';
@@ -25,20 +33,39 @@ export class Submit implements OnInit {
   ngOnInit() {
     this.complaintForm = this.fb.group({
       name: ['', Validators.required],
-      email: ['', Validators.email],
+      email: ['', [Validators.email]], // optional email but validated
       category: ['', Validators.required],
       description: ['', Validators.required]
     });
   }
 
-  // 🔥 Generate tracking number
-  generateTracking(): string {
-  const data = JSON.parse(localStorage.getItem('complaints') || '[]');
-  const count = data.length + 1;
-  return `TRK-${count.toString().padStart(6, '0')}`;
-}
+  // =========================
+  // IMAGE HANDLER
+  // =========================
+  onFileSelected(event: any) {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-  // 🔥 Submit form
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.selectedImage = reader.result as string;
+      
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  // =========================
+  // TRACKING NUMBER (FIXED)
+  // =========================
+  generateTracking(): string {
+    return `TRK-${Date.now()}`;
+  }
+
+  // =========================
+  // SUBMIT FORM
+  // =========================
   onSubmit() {
     this.submitted = true;
 
@@ -47,47 +74,59 @@ export class Submit implements OnInit {
     this.trackingNumber = this.generateTracking();
 
     const complaint = {
-  id: Date.now(), // ✅ unique ID
-  fullName: this.complaintForm.value.name,
-  email: this.complaintForm.value.email || 'N/A',
-  category: this.complaintForm.value.category,
-  description: this.complaintForm.value.description,
-  trackingNumber: this.trackingNumber,
-  status: 'Pending',
-  guest: this.isGuest,
-  date: new Date().toISOString()
-};
+      id: Date.now(),
+      fullName: this.complaintForm.value.name,
+      email: this.complaintForm.value.email || 'N/A',
+      category: this.complaintForm.value.category,
+      description: this.complaintForm.value.description,
+      trackingNumber: this.trackingNumber,
+      status: 'Pending',
+      image: this.selectedImage,
+      guest: this.isGuest,
+      date: new Date().toISOString()
+    };
 
-    // Save to localStorage
-    const data = JSON.parse(localStorage.getItem('complaints') || '[]');
+    // =========================
+    // SAVE TO LOCAL STORAGE
+    // =========================
+    const data = JSON.parse(localStorage.getItem('complaints') ?? '[]');
     data.push(complaint);
     localStorage.setItem('complaints', JSON.stringify(data));
 
-    // Show success
+    // =========================
+    // SUCCESS STATE
+    // =========================
     this.success = true;
 
-    // Reset form
+    // RESET FORM
     this.complaintForm.reset();
+    this.selectedImage = null;
+    this.imagePreview = null;
     this.isGuest = true;
     this.submitted = false;
 
-    // Optional: auto scroll to success
+    this.complaintForm.markAsPristine();
+    this.complaintForm.markAsUntouched();
+
+    // Scroll to success message
     setTimeout(() => {
       const el = document.querySelector('.success-container');
       el?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   }
 
-  // 🔥 Navigate to login
+  // =========================
+  // NAVIGATION
+  // =========================
   goToLogin() {
     this.router.navigate(['/login']);
   }
-  
-  goToTrack() {
-  this.router.navigate(['/track', this.trackingNumber]);
-}
 
-goBack() {
-  window.history.back(); // simple and effective
-}
+  goToTrack() {
+    this.router.navigate(['/track', this.trackingNumber]);
+  }
+
+  goBack() {
+    window.history.back();
+  }
 }

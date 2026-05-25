@@ -39,7 +39,7 @@ export class Login implements OnInit {
   createDefaultAdmin() {
 
     const users = JSON.parse(localStorage.getItem('users') ?? '[]');
-
+   
     const adminExists = users.some((u: any) => u.role === 'admin');
 
     if (!adminExists) {
@@ -55,6 +55,7 @@ export class Login implements OnInit {
       localStorage.setItem('users', JSON.stringify(users));
     }
   }
+
 
   // =========================
   // 🔑 LOGIN FUNCTION
@@ -72,7 +73,7 @@ export class Login implements OnInit {
 
     const email = this.loginForm.value.email.trim().toLowerCase();
     const password = this.loginForm.value.password;
-
+     const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
     const users = JSON.parse(localStorage.getItem('users') ?? '[]');
 
     const foundUser = users.find(
@@ -85,16 +86,23 @@ export class Login implements OnInit {
       this.message = 'Invalid email or password.';
       return;
     }
-
+    if (foundUser.role === 'admin') {
+      this.router.navigate(['/app/admin-profile']);
+    } else {
+      this.router.navigate(['/app/profile']);
+    }
     // ✅ SAVE USER SESSION
     localStorage.setItem('currentUser', JSON.stringify(foundUser));
-
+    if (user.role === 'Staff') {
+      this.router.navigate(['/staff']);
+    }
     // ✅ REDIRECT
     if (foundUser.role === 'admin') {
       this.router.navigateByUrl('/admin');
     } else {
       this.router.navigateByUrl('app/dashboard'); // or '/user'
     }
+    
   }
 
   goBack() {

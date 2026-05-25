@@ -1,169 +1,191 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+/* ==========================================================================
+   CAMP BRYZTOFF SYSTEM STYLES (MODERN ADMIN VARIATION)
+   ========================================================================== */
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:'Poppins',sans-serif;
+/* GLOBAL TYPE CONFIGURATION */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif; /* Clean, modern body text readability */
 }
 
-/* 🔵 FULL PAGE BACKGROUND */
-body{
-  background: linear-gradient(135deg,#dbeafe,#bfdbfe,#93c5fd);
+/* 🌌 CAMP BRYZTOFF FULL PAGE BACKGROUND LAYER */
+body {
+  background:
+    linear-gradient(rgba(28, 27, 53, 0.45), rgba(28, 27, 53, 0.6)),
+    url('/assets/images/resort.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* TYPOGRAPHY HEADINGS (Highly legible, themed slab-serif applied systematically) */
+h1, h2, h3, h4, .logo, .logo span, .main-content h1, .card h2 {
+  font-family: 'ChunkFive', 'Arvo', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 /* LAYOUT */
-.dashboard-container{
-  display:flex;
-  min-height:100vh;
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  /* Exact requested brand flagship background gradient matrix definition across the wrapper */
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-/* 🔥 SIDEBAR (MODERN ADMIN STYLE) */
-.sidebar{
- width:240px;
-  flex-shrink:0;
-  padding:25px;
-
-  background: linear-gradient(
-    180deg,
-    rgba(13,71,161,0.95),
-    rgba(5,25,60,0.95)
-  );
-
+/* ==========================================================================
+   SIDEBAR ARCHITECTURE (FROSTED DEEP PLUM)
+   ========================================================================== */
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  padding: 25px;
+  background: rgba(28, 27, 53, 0.45);
   backdrop-filter: blur(15px);
-  border-right:1px solid rgba(255,255,255,0.1);
-
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow:
-    5px 0 30px rgba(0,0,0,0.4),
-    inset 0 0 20px rgba(255,255,255,0.05);
+    5px 0 30px rgba(0, 0, 0, 0.25),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
 }
 
 /* LOGO */
-.logo{
-  font-size:22px;
-  font-weight:600;
-  margin-bottom:30px;
-  color:#ffffff;
+.logo {
+  font-size: 22px;
+  color: #ffffff;
+  margin-bottom: 30px;
 }
 
-.logo span{
-  color:#ffd54f; /* 🔥 yellow accent */
+/* Accent anchor node typography settings */
+.logo span {
+  color: #e0e4ff;
 }
 
-/* MENU */
-.menu{
-  list-style:none;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+/* MENU CONTROL LINKS */
+.menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.menu li a{
-  display:block;
-  width:100%;
-
-  padding:12px 15px;
-  border-radius:12px;
-
-  text-decoration:none;
-  color:#cfe8ff;
-
-  transition:0.25s;
+.menu li a {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+  transition: 0.25s ease;
 }
 
-/* HOVER */
-.menu li a:hover{
-  background: rgba(255,213,79,0.12);
-  color:#ffffff;
-  transform:translateX(5px);
+/* HOVER EFFECT */
+.menu li a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transform: translateX(5px);
 }
 
-/* ACTIVE */
-.menu li a.active{
-  background: linear-gradient(135deg,#2196f3,#ffd54f);
-  color:#000;
-  font-weight:600;
-
-  box-shadow:
-    0 6px 18px rgba(255,213,79,0.4),
-    inset 0 0 6px rgba(255,255,255,0.3);
+/* ACTIVE STATE - Pops cleanly inside the dark frosted console layout */
+.menu li a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* LOGOUT BUTTON */
-.logout-btn{
-  margin-top:25px;
-  width:100%;
-  padding:12px;
-
-  border:none;
-  border-radius:12px;
-
-  background: linear-gradient(135deg,#ff4d4d,#ffd54f);
-  color:#000;
-
-  font-weight:600;
-  cursor:pointer;
-  transition:0.3s;
+/* DESTRUCTIVE LOGOUT SYSTEM COMPONENT */
+.logout-btn {
+  margin-top: 25px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #ff6b6b;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.logout-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 15px rgba(255,204,0,0.4);
+.logout-btn:hover {
+  background: #fa5252;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 107, 107, 0.35);
 }
 
-/* 🔵 MAIN CONTENT */
-/* 🔵 MAIN CONTENT - Re-aligned to match screenshot */
+/* ==========================================================================
+   MAIN CONTENT WORKSPACE MODULE
+   ========================================================================== */
 .main-content {
   flex: 1;
   width: 100%;
   padding: 40px;
-  background: #f4f7fe; /* Solid light background */
-  display: block;      /* Back to standard block flow */
+  background: rgba(28, 27, 53, 0.35);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  display: block;      
   overflow-y: auto;
 }
 
 /* Ensure content fills width naturally */
 .main-content > * {
   width: 100%;
-  max-width: 100%; /* Screenshot uses full width */
+  max-width: 100%; 
 }
 
-/* 🔥 STATS CARD STYLE - Flat & Professional */
+/* ==========================================================================
+   DASHBOARD CARDS (FROSTED GRID BLOCKS)
+   ========================================================================== */
 .card {
-  background: #ffffff; /* Solid white */
+  background: rgba(28, 27, 53, 0.45);
   border-radius: 24px;
   padding: 30px;
-  border: none;        /* Remove the glass border */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* Very soft shadow */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 10px rgba(255, 255, 255, 0.02);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 200px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-/* Specific fix for the active menu item in the sidebar */
-.menu li a.active {
-  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%, #f9d423 200%);
-  color: #0d3b66;
-  font-weight: 700;
-  box-shadow: none;
+.card:hover {
+  transform: translateY(-5px);
+  background: rgba(28, 27, 53, 0.55);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* 🔥 BUTTON SYSTEM */
-button{
-  border:none;
-  padding:10px 16px;
-  border-radius:10px;
-
-  background: linear-gradient(135deg,#2196f3,#ffd54f);
-  color:#000;
-
-  font-weight:600;
-  cursor:pointer;
-  transition:0.3s;
+/* ==========================================================================
+   BUTTON ENGINE
+   ========================================================================== */
+button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  /* Core brand interaction trigger */
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
 }

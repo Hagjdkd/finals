@@ -4,6 +4,7 @@
 
     <!-- HEADER -->
     <div class="header">
+
       <div>
         <p class="welcome">Welcome back 👋</p>
         <h1>User Dashboard</h1>
@@ -11,67 +12,133 @@
 
       <div class="profile">
         <div class="avatar"></div>
-        <span>{{userName}}</span>
+        <span>{{ userName }}</span>
       </div>
+
     </div>
 
     <!-- STATS -->
     <div class="stats">
+
       <div class="card">
         <h3>Total Complaints</h3>
-        <p>{{total}}</p>
+        <p>{{ total }}</p>
       </div>
 
       <div class="card">
         <h3>Pending</h3>
-        <p>{{pending}}</p>
+        <p>{{ pending }}</p>
       </div>
 
       <div class="card">
         <h3>In Progress</h3>
-        <p>{{progress}}</p>
+        <p>{{ progress }}</p>
       </div>
 
       <div class="card">
         <h3>Resolved</h3>
-        <p>{{resolved}}</p>
+        <p>{{ resolved }}</p>
       </div>
+
     </div>
 
     <!-- TABLE -->
     <div class="table-card">
+
       <h2>My Complaints</h2>
 
       <table>
+
         <thead>
           <tr>
             <th>ID</th>
             <th>Complaint</th>
             <th>Date</th>
             <th>Status</th>
+            <th>Resolution</th>
           </tr>
         </thead>
 
         <tbody>
 
           <tr *ngFor="let c of complaints">
-            <td>#{{c.id}}</td>
-            <td>{{c.description}}</td>
-            <td>{{c.date}}</td>
+
+            <td>#{{ c.id }}</td>
+
             <td>
-              <span class="status" [ngClass]="c.status.toLowerCase().replace(' ', '')">
-                {{c.status}}
-              </span>
+              <div class="complaint-text">
+                {{ c.description }}
+              </div>
+
+              <!-- STAFF RESOLUTION -->
+              <div
+                class="resolution-section"
+                *ngIf="c.resolution">
+
+                <h4>Staff Resolution</h4>
+
+                <p>{{ c.resolution }}</p>
+
+                <small>
+                  Updated:
+                  {{ c.updatedAt | date:'medium' }}
+                </small>
+
+                <!-- PROOF IMAGE -->
+                <div
+                  *ngIf="c.proofImage"
+                  class="proof-container">
+
+                  <img
+                    [src]="c.proofImage"
+                    alt="Proof Image"
+                    class="proof-image">
+
+                </div>
+
+              </div>
+
             </td>
+
+            <td>{{ c.date }}</td>
+
+            <td>
+
+              <span
+                class="status"
+                [ngClass]="c.status.toLowerCase().replace(' ', '')">
+
+                {{ c.status }}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              <span *ngIf="c.resolution; else noResolution">
+                Available
+              </span>
+
+              <ng-template #noResolution>
+                Waiting for staff update
+              </ng-template>
+
+            </td>
+
           </tr>
 
+          <!-- EMPTY -->
           <tr *ngIf="complaints.length === 0">
-            <td colspan="4" class="no-data">
+
+            <td colspan="5" class="no-data">
               No complaints submitted yet
             </td>
+
           </tr>
 
         </tbody>
+
       </table>
 
     </div>

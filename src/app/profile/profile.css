@@ -1,0 +1,285 @@
+/* ==========================================================================
+   CAMP BRYZTOFF ALL-IN-ONE SYSTEM STYLES (PROFILE CONSOLE EXTENSION)
+   ========================================================================== */
+
+/* HEADER & USER PROFILE TOP NAVIGATION NODE BAR */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.welcome {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Profile Mini Glass Chip */
+.profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 25px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.profile-name {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   LAYOUT GRID CONTROL MATRIX
+   ========================================================================== */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* CORE SOLID GLASS CARD BASE ASSEMBLY */
+.glass-card {
+  background: rgba(28, 27, 53, 0.45);
+  border-radius: 24px;
+  padding: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 10px rgba(255, 255, 255, 0.02);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.glass-card h2 {
+  font-size: 22px;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+/* ==========================================================================
+   LEFT COLUMN: PROFILE VISUAL SHOWCASE
+   ========================================================================== */
+.identity-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-large {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5f76e8 0%, #845fc9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 4px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-placeholder {
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'ChunkFive', 'Arvo', Georgia, serif;
+}
+
+.role-badge {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e0e4ff;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.meta-list {
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.meta-label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.meta-value {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.approved { background: #4caf50; color: white; }
+
+/* ==========================================================================
+   RIGHT COLUMN: SYSTEM FORM ARCHITECTURE
+   ========================================================================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  font-size: 14px;
+  transition: 0.25s ease;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Dropdown Choice Node Form Styling */
+.form-group select option {
+  background: #1c1b35;
+  color: #ffffff;
+}
+
+small {
+  color: #ff6b6b;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   BUTTON INTERACTION SYSTEMS
+   ========================================================================== */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 25px;
+}
+
+button {
+  border: none;
+  padding: 13px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+/* Primary Execution Trigger Button */
+.submit-btn {
+  color: #ffffff;
+  background: linear-gradient(135deg, #5f76e8 0%, #6b74de 25%, #756fd8 50%, #7a67d1 75%, #845fc9 100%);
+  box-shadow: 0 5px 15px rgba(95, 118, 232, 0.3);
+}
+
+.submit-btn:hover:not([disabled]) {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 10px 25px rgba(95, 118, 232, 0.45);
+}
+
+.submit-btn:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Cancel/Reset Secondary Trigger Button */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: scale(0.98) !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE MATRIX ADJUSTMENTS
+   ========================================================================== */
+@media(max-width: 992px) {
+  .profile-grid { grid-template-columns: 1fr; gap: 25px; }
+  .form-grid { grid-template-columns: 1fr; }
+}

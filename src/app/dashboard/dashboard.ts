@@ -23,6 +23,10 @@ export class Dashboard implements OnInit {
   progress = 0;
   resolved = 0;
 
+   // NEW
+  resolution?: string;
+  proofImage?: string;
+  updatedAt?: string;
   complaints: any[] = [];
 
   ngOnInit() {
@@ -41,6 +45,17 @@ export class Dashboard implements OnInit {
 
   const stored = JSON.parse(localStorage.getItem('complaints') || '[]');
   const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+   // STAFF REDIRECT
+      if (
+        user.role &&
+        user.role.toLowerCase() === 'staff'
+      ) {
+
+        this.router.navigate(['/staff']);
+        return;
+
+      }
 
   if (!user.email) return;
 

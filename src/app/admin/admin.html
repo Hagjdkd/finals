@@ -190,8 +190,111 @@
     <!-- ===================== -->
     <!-- USERS SECTION -->
     <!-- ===================== -->
-    <div *ngIf="activeSection === 'users'">
-  <app-user></app-user>
+   <div *ngIf="activeSection === 'users'">
+
+  <div class="user-management-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+    <h2 style="font-family: 'ChunkFive', 'Arvo', Georgia, serif; color: #ffffff;">User Management</h2>
+    <button class="create-btn" (click)='openUserModal()' style="background: linear-gradient(135deg, #5f76e8 0%, #845fc9 100%); color: #ffffff; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;">
+      + Create New User
+    </button>
+  </div>
+
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Staff Assignment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of storedRegisteredUsers">
+          <td>{{ u.fullName }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <span class="role-pill" [ngClass]="(u.role || 'user').toLowerCase()">
+              {{ u.role }}
+            </span>
+          </td>
+          <td>
+            <span *ngIf="u.role?.toLowerCase() === 'staff'" style="color: #cfe6ff; font-size: 13px; font-weight: 500; background: rgba(95, 118, 232, 0.15); padding: 4px 10px; border-radius: 6px; text-transform: capitalize;">
+              {{ u.staffCategory || 'General Maintenance' }}
+            </span>
+            <span *ngIf="u.role?.toLowerCase() !== 'staff'" style="color: rgba(255,255,255,0.35); font-size: 13px;">—</span>
+          </td>
+          <td>
+            <div class="action-group" style="display: flex; gap: 8px; flex-direction: row; border: none; background: transparent; padding: 0; min-width: auto; box-shadow: none;">
+              <button (click)="editUser(u)" style="background: rgba(255, 255, 255, 0.1); color: #fff; padding: 6px 12px; border-radius: 6px;">Edit</button>
+              <button (click)="deleteUser(u.id)" style="background: #ff6b6b; color: #fff; padding: 6px 12px; border-radius: 6px;">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="storedRegisteredUsers.length === 0">
+          <td colspan="5" style="text-align: center; color: rgba(255,255,255,0.4); padding: 30px;">
+            No records found inside system directory.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="modal-overlay" *ngIf="isUserModalOpen" (click)="closeUserModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h2>{{ isEditMode ? 'Modify Profile Matrix' : 'Create New Account Record' }}</h2>
+      <button class="close-x" (click)="closeUserModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter name" [(ngModel)]="selectedUser.fullName" />
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="name@domain.com" [(ngModel)]="selectedUser.email" />
+      </div>
+
+      <div class="form-group">
+        <label>Password Account Key</label>
+        <input type="text" placeholder="Enter security access password" [(ngModel)]="selectedUser.password" />
+      </div>
+
+      <div class="form-group">
+        <label>Account Authorization Level</label>
+        <select [(ngModel)]="selectedUser.role">
+          <option value="user">User</option>
+          <option value="Staff">Staff</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="selectedUser.role?.toLowerCase() === 'staff'">
+        <label style="color: #ffb300; font-weight: 600;">Staff Operational Category Assignment</label>
+        <select [(ngModel)]="selectedUser.staffCategory" style="border: 1px solid rgba(255, 179, 0, 0.45);">
+          <option value="room">Room Maintenance</option>
+          <option value="service">Guest Services</option>
+          <option value="cleanliness">Cleanliness & Housekeeping</option>
+          <option value="other">Other System Operations</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeUserModal()">Discard</button>
+      <button class="btn-primary" (click)="saveUserFromModal()">
+        {{ isEditMode ? 'Apply Configurations' : 'Commit Creation' }}
+      </button>
+    </div>
+
+  </div>
 </div>
 <!-- ===================== -->
 <!-- REPORTS -->
